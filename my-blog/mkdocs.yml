@@ -1,0 +1,20 @@
+site_name: Wisnu Blog
+theme:
+  name: material
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - content.code.copy
+    - navigation.expand
+    - content.tabs.link
+plugins:
+  - search
+  - blog:
+      blog_dir: blog
+      post_dir: blog/posts
+      blog_index_template: blog-index.html
+      post_template: blog-post.html
+nav:
+  - Home: index.md
+  - Blog:
+      - blog/index.md
