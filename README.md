@@ -17,6 +17,12 @@ npm run build
 
 Vite outputs to `dist/` (declared in `vercel.json`). Use `npm run preview` to check the production build locally.
 
+## Styling (Tailwind + custom CSS)
+
+- Tailwind is installed and configured (`tailwind.config.js`, `postcss.config.js`).
+- Global directives live at the top of `src/index.css`; custom theme styles follow.
+- Use Tailwind utilities alongside the existing CSS classes in `src/App.css`.
+
 ## Deploy to Vercel
 
 - **CLI:** `vercel --prod` (after authenticating with `vercel login`). The included `vercel.json` sets `buildCommand` to `npm run build` and `outputDirectory` to `dist`.
