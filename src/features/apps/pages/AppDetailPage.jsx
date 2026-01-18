@@ -1,5 +1,7 @@
+import { Link } from 'react-router-dom'
 import { Icon } from '@iconify/react'
-import CardShell from '../components/CardShell'
+
+import CardShell from '../../../components/common/CardShell'
 
 function AppDetailPage({ app }) {
   if (!app) {
@@ -29,9 +31,9 @@ function AppDetailPage({ app }) {
               </div>
             </div>
             <p className="text-sm text-slate-500">Halaman ini bisa diisi konten khusus untuk aplikasi {app.name}.</p>
-            <a href="/" className="inline-flex text-sm font-semibold text-indigo-600 hover:text-indigo-700">
-              ← Kembali ke daftar
-            </a>
+            <Link to="/" className="inline-flex text-sm font-semibold text-indigo-600 hover:text-indigo-700">
+              Kembali ke daftar
+            </Link>
           </div>
         </CardShell>
       </section>

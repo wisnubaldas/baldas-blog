@@ -35,10 +35,42 @@ Vite outputs to `dist/` (declared in `vercel.json`). Use `npm run preview` to ch
 - Iconify is installed (`@iconify/react`). Import with `import { Icon } from '@iconify/react'`.
 - Use any icon by id, e.g. `<Icon icon="lucide:settings" width={24} height={24} />`.
 
+## Project structure
+
+- `src/app/` holds the app shell (`App.jsx`) and route config (`AppRoutes.jsx`).
+- `src/features/apps/` groups app-specific pieces: data (`data/apps.js`), list page (`pages/AppListPage.jsx`), detail page (`pages/AppDetailPage.jsx`), and tiles (`components/AppTile.jsx`).
+- `src/components/common/` keeps shared UI (e.g., `CardShell.jsx`).
+
+### Folder diagram
+
+```
+src/
+├─ app/
+│  ├─ App.jsx
+│  ├─ App.css
+│  └─ AppRoutes.jsx
+├─ assets/            # static assets (images, fonts, etc.)
+├─ components/
+│  ├─ common/CardShell.jsx
+│  └─ ui/
+│     ├─ button.jsx
+│     └─ card.jsx
+├─ features/
+│  └─ apps/
+│     ├─ components/AppTile.jsx
+│     ├─ data/apps.js
+│     └─ pages/
+│        ├─ AppDetailPage.jsx
+│        └─ AppListPage.jsx
+├─ lib/utils.js
+├─ index.css
+└─ main.jsx
+```
+
 ## Routing
 
 - Client routing uses `react-router-dom` (`BrowserRouter` in `src/main.jsx`).
-- Landing cards link to per-application pages defined in `src/App.jsx`; add new routes by extending the `apps` array.
+- Routes are centralized in `src/app/AppRoutes.jsx`, auto-generated from `apps` data.
 
 ## Deploy to Vercel
 
