@@ -38,33 +38,38 @@ Vite outputs to `dist/` (declared in `vercel.json`). Use `npm run preview` to ch
 ## Project structure
 
 - `src/app/` holds the app shell (`App.jsx`) and route config (`AppRoutes.jsx`).
-- `src/features/apps/` groups app-specific pieces: data (`data/apps.js`), list page (`pages/AppListPage.jsx`), detail page (`pages/AppDetailPage.jsx`), and tiles (`components/AppTile.jsx`).
+- `src/features/apps/` groups app-specific pieces: data (`data/apps.js`), list page (`pages/AppListPage.jsx`), per-app default pages (`pages/AppEdiPage.jsx`, `pages/AppTpsOnlinePage.jsx`, `pages/AppApIiPage.jsx`, `pages/AppHubnetPage.jsx`, `pages/AppSettingPage.jsx`), shared layout (`pages/AppPageLayout.jsx`), and tiles (`components/AppTile.jsx`).
 - `src/components/common/` keeps shared UI (e.g., `CardShell.jsx`).
 
 ### Folder diagram
 
 ```
 src/
-├─ app/
-│  ├─ App.jsx
-│  ├─ App.css
-│  └─ AppRoutes.jsx
-├─ assets/            # static assets (images, fonts, etc.)
-├─ components/
-│  ├─ common/CardShell.jsx
-│  └─ ui/
-│     ├─ button.jsx
-│     └─ card.jsx
-├─ features/
-│  └─ apps/
-│     ├─ components/AppTile.jsx
-│     ├─ data/apps.js
-│     └─ pages/
-│        ├─ AppDetailPage.jsx
-│        └─ AppListPage.jsx
-├─ lib/utils.js
-├─ index.css
-└─ main.jsx
+|-- app/
+|   |-- App.jsx
+|   |-- App.css
+|   `-- AppRoutes.jsx
+|-- assets/            # static assets (images, fonts, etc.)
+|-- components/
+|   |-- common/CardShell.jsx
+|   `-- ui/
+|       |-- button.jsx
+|       `-- card.jsx
+|-- features/
+|   `-- apps/
+|       |-- components/AppTile.jsx
+|       |-- data/apps.js
+|       `-- pages/
+|           |-- AppApIiPage.jsx
+|           |-- AppEdiPage.jsx
+|           |-- AppHubnetPage.jsx
+|           |-- AppListPage.jsx
+|           |-- AppPageLayout.jsx
+|           |-- AppSettingPage.jsx
+|           `-- AppTpsOnlinePage.jsx
+|-- lib/utils.js
+|-- index.css
+`-- main.jsx
 ```
 
 ## Routing
