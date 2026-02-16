@@ -63,7 +63,7 @@ export const apps = [
     description:
       "General Ledger, Accounts Payable, Accounts Receivable, budgeting, tax management, and financial reporting.",
     icon: "mdi:finance",
-    path: "https://app.wisnubaldas.net",
+    path: "https://finance.wisnubaldas.net",
   },
   {
     key: "wms",
@@ -71,7 +71,7 @@ export const apps = [
     description:
       "Stock In / Stock Out, multi warehouse, barcode scanning, batch tracking, and real-time inventory reporting.",
     icon: "mdi:warehouse",
-    path: "/wms",
+    path: "https://wms.wisnubaldas.net",
   },
   {
     key: "sales",
@@ -135,7 +135,7 @@ export const apps = [
     description:
       "User management, RBAC, multi-company support, audit logs, notifications, and API integration.",
     icon: "mdi:cog-outline",
-    path: "/system",
+    path: "https://app.wisnubaldas.net",
   },
 ];
 
