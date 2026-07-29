@@ -1,166 +1,132 @@
 # Blog & Portofolio Pribadi — Wisnu Hidayat
 
-Situs web personal resmi **Wisnu Hidayat** (`wisnubaldas.net`) yang menggabungkan halaman **Company Profile / Portofolio One-Page Parallax** dan **Blog Publik**.
+Situs web personal resmi **Wisnu Hidayat** yang terbagi menjadi dua aplikasi Django terpisah:
+1. **Portofolio / Company Profile**: Domain `wisnubaldas.net` (folder `my-profile/`)
+2. **Blog Utama**: Subdomain `blog.wisnubaldas.net` (folder `blog/`)
 
-Dikembangkan menggunakan **Django 6.0.7**, **HTMX**, dan **SQLite (Dev) / Supabase PostgreSQL (Prod)** dengan pendekatan **MVT Murni** (Model-View-Template).
+Dikembangkan menggunakan **Django 6.0**, **HTMX**, dan **SQLite (Dev) / Supabase PostgreSQL (Prod)** dengan pendekatan **MVT Murni** (Model-View-Template).
 
 ---
 
 ## 🚀 Fitur Utama
 
-### 🏢 1. Company Profile / Portofolio (`/`)
+### 🏢 1. Company Profile / Portofolio (`my-profile/` — `wisnubaldas.net`)
 - **One-Page Parallax UI**: Efek scroll-spy, parallax background, dan animasi responsif berbasis `one-page-parallax` theme.
 - **Section Profil**: Hero Banner, Tentang Saya, Ringkasan Keahlian (Progress Bar), Pengalaman Kerja & Pendidikan, Layanan, Portofolio Proyek, dan Form Kontak.
-- **Form Kontak Dynamic (HTMX)**: Pengiriman pesan instan tanpa reload halaman, dilengkapi validasi server-side dan otomatis tersimpan di database (`ContactMessage`).
+- **Form Kontak Dynamic (HTMX)**: Pengiriman pesan instan tanpa reload halaman, tersimpan di database (`ContactMessage`).
 - **CMS Admin**: Pengelolaan data profil, skill, timeline pengalaman, proyek portofolio, dan pesan masuk.
 
-### 📝 2. Blog Teknis & Catatan (`/blog/`)
+### 📝 2. Blog Teknis & Catatan (`blog/` — `blog.wisnubaldas.net`)
 - **Indeks & Grid View**: Tampilan artikel publik dengan waktu baca, tanggal rilis, gambar sampul, dan pagination.
 - **Live Search HTMX**: Pencarian artikel secara *real-time* berbasis keyword tanpa reload halaman.
 - **Kategori & Tagging**: Filter artikel berdasarkan kategori dan tag teknis.
 - **Detail Artikel Kaya Format**: Editor `django-ckeditor-5`, breadcrumb, tombol share media sosial, dan rekomendasi artikel terkait.
-- **Halaman Statis**: Halaman About Me & Kontak khusus konteks blog.
+- **Kontak & About Me Blog**: Halaman kontak dan profil mandiri khusus konteks blog.
 
 ---
 
 ## 🛠️ Stack Teknologi
 
-- **Backend**: Python 3.12, Django 6.0.7
+- **Backend**: Python 3.12, Django 6.0
 - **Frontend Interaktivitas**: HTMX 1.9.12 (Server-Driven UI)
 - **Styling & Theme**: Vanilla CSS, Bootstrap, Color Admin Parallax & Blog Themes
 - **Rich Text Editor**: `django-ckeditor-5`
 - **Database**:
-  - Development Lokal: SQLite (`db.sqlite3`)
-  - Production Server: Supabase PostgreSQL 17.6 (Connection Pooler Port 6543)
+  - Development Lokal: SQLite (`db.sqlite3` di masing-masing folder)
+  - Production Server: Supabase PostgreSQL
 - **Static Files Storage**: WhiteNoise (`CompressedManifestStaticFilesStorage`)
-- **Deployment Platform**: Vercel (Serverless WSGI via `api/index.py`)
+- **Deployment Platform**: Vercel (Dua Vercel project terpisah berbasis `my-profile/` dan `blog/`)
 
 ---
 
-## 📂 Struktur Proyek
-
-Proyek Django terletak di dalam direktori `django/` dengan struktur modular:
+## 📂 Struktur Proyek Terpisah
 
 ```text
 blog-baldas/
-├── AGENTS.md                         # Instruksi & kontrak kerja agent
-├── README.md                         # Dokumentasi utama repository
-└── django/                           # Root aplikasi Django
-    ├── manage.py
-    ├── config/                       # Settings, root URLs, ASGI/WSGI
-    │   ├── settings.py               # Flexible config (SQLite/PostgreSQL)
-    │   └── urls.py
-    ├── apps/
-    │   ├── company_profile/          # App Portofolio Parallax
-    │   │   ├── controllers/          # Home, Profile, Portfolio, Contact
-    │   │   ├── models/               # Profile, Skill, Experience, Project, ContactMessage
-    │   │   ├── urls/                 # Home, Portfolio, Contact URLs
-    │   │   ├── templates/company_profile/
-    │   │   └── static/company_profile/
-    │   └── blog/                     # App Blog Mandiri
-    │       ├── controllers/          # Post, Category, Search, Page
-    │       ├── models/               # Post, Category, Tag
-    │       ├── urls/                 # Post, Category, Search, Page URLs
-    │       ├── templates/blog/
-    │       └── static/blog/
-    ├── templates/                    # Base templates
-    ├── static/                       # Global static assets
-    ├── media/                        # User uploads (media)
-    ├── api/
-    │   └── index.py                  # Entry point WSGI Vercel
-    ├── vercel.json                   # Konfigurasi deployment Vercel
-    ├── .env.example                  # Template variabel lingkungan
-    ├── requirements.txt
-    └── db.sqlite3                    # Database lokal (gitignored)
+├── .agents/                          # Referensi data diri & template UI
+├── my-profile/                       # Project 1: Portofolio (wisnubaldas.net)
+│   ├── manage.py
+│   ├── config/                       # Settings, URLs, WSGI/ASGI
+│   ├── apps/company_profile/         # App Portofolio Parallax
+│   ├── static/
+│   ├── api/index.py                  # Entry point Vercel
+│   ├── vercel.json                   # Build & rewrite Vercel
+│   ├── requirements.txt
+│   └── db.sqlite3
+├── blog/                             # Project 2: Blog (blog.wisnubaldas.net)
+│   ├── manage.py
+│   ├── config/                       # Settings, URLs, WSGI/ASGI
+│   ├── apps/blog/                    # App Blog Mandiri
+│   ├── static/
+│   ├── api/index.py                  # Entry point Vercel
+│   ├── vercel.json                   # Build & rewrite Vercel
+│   ├── requirements.txt
+│   └── db.sqlite3
+├── AGENTS.md                         # Kontrak agent & aturan arsitektur
+└── README.md                         # Dokumentasi utama repository
 ```
 
 ---
 
 ## 💻 Panduan Jalankan di Lokal (Development)
 
-### 1. Clone & Setup Virtual Environment
+### 1. Project Portofolio (`my-profile`)
 ```bash
-git clone https://github.com/wisnubaldas/blog-baldas.git
-cd blog-baldas/django
-
-# Buat & aktifkan virtualenv
+cd my-profile
 python -m venv .venv
-# Windows PowerShell:
-.venv\Scripts\Activate.ps1
-```
-
-### 2. Install Dependensi
-```bash
+.venv\Scripts\Activate.ps1   # Windows PowerShell
 pip install -r requirements.txt
-```
-
-### 3. Setup Environment Variables
-Salin `.env.example` menjadi `.env`:
-```bash
-cp .env.example .env
-```
-*(Kosongkan `DATABASE_URL` pada `.env` untuk menggunakan database SQLite lokal)*.
-
-### 4. Migration & Superuser
-```bash
 python manage.py migrate
-python manage.py createsuperuser
+python manage.py runserver 8000
 ```
+Buka peramban di: `http://localhost:8000/`
 
-### 5. Jalankan Dev Server
+### 2. Project Blog (`blog`)
+Buka terminal baru:
 ```bash
-python manage.py runserver
+cd blog
+python -m venv .venv
+.venv\Scripts\Activate.ps1   # Windows PowerShell
+pip install -r requirements.txt
+python manage.py migrate
+python manage.py runserver 8001
 ```
-
-Buka peramban di:
-- **Portofolio**: `http://localhost:8000/`
-- **Blog**: `http://localhost:8000/blog/`
-- **Admin CMS**: `http://localhost:8000/admin/`
+Buka peramban di: `http://localhost:8001/`
 
 ---
 
-## ☁️ Panduan Deployment ke Vercel & Supabase
+## ☁️ Panduan Deployment ke Vercel
 
-### 1. Konfigurasi Vercel Dashboard
-- Connect repository ini ke Vercel.
-- Tetapkan **Root Directory** = `django`.
+Buat **dua project terpisah** di Vercel Dashboard dari repositori yang sama:
 
-### 2. Set Environment Variables di Vercel Settings
-Tambahkan variabel berikut pada **Settings > Environment Variables**:
+### 1. Deployment `my-profile` (Domain: `wisnubaldas.net`)
+- **Vercel Project Name**: `wisnubaldas-profile`
+- **Root Directory**: `my-profile`
+- **Custom Domain**: `wisnubaldas.net` (dan `www.wisnubaldas.net`)
+- **Environment Variables**:
+  - `SECRET_KEY`: secret key unik produksi
+  - `DEBUG`: `False`
+  - `ALLOWED_HOSTS`: `wisnubaldas.net,www.wisnubaldas.net,.vercel.app`
+  - `CSRF_TRUSTED_ORIGINS`: `https://wisnubaldas.net,https://www.wisnubaldas.net,https://*.vercel.app`
+  - `BLOG_URL`: `https://blog.wisnubaldas.net`
+  - `DATABASE_URL`: Connection string PostgreSQL managed (Supabase)
 
-| Key | Example Value | Deskripsi |
-|---|---|---|
-| `SECRET_KEY` | `your-production-secret-key` | Secret key unik produksi |
-| `DEBUG` | `False` | Matikan mode debug |
-| `ALLOWED_HOSTS` | `wisnubaldas.net,www.wisnubaldas.net,.vercel.app` | Host domain yang diizinkan |
-| `CSRF_TRUSTED_ORIGINS` | `https://wisnubaldas.net,https://www.wisnubaldas.net,https://*.vercel.app` | Origin CSRF terpercaya |
-| `DATABASE_URL` | `postgresql://postgres.[ref]:[password]@aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres` | Connection string Supabase Pooler |
-
-### 3. Build & Deploy
-File `django/vercel.json` mengarahkan Vercel untuk menjalankan `collectstatic` ke folder `staticfiles` dan meroute seluruh HTTP request ke WSGI Django di `api/index.py`:
-
-```json
-{
-  "buildCommand": "python manage.py collectstatic --noinput",
-  "routes": [
-    {
-      "src": "/static/(.*)",
-      "dest": "/staticfiles/$1"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "api/index.py"
-    }
-  ]
-}
-```
-
-> [!IMPORTANT]
-> **Optimasi Ukuran Function Vercel (`.vercelignore`)**: File `.vercelignore` disiapkan untuk mengabaikan folder `staticfiles/`, `media/`, `.agents/`, dan `.venv/` dari zip paket Serverless Function Vercel. Hal ini memangkas ukuran bundle dari **249 MB menjadi < 30 MB** (jauh di bawah batas Vercel 225 MB).
+### 2. Deployment `blog` (Domain: `blog.wisnubaldas.net`)
+- **Vercel Project Name**: `wisnubaldas-blog`
+- **Root Directory**: `blog`
+- **Custom Domain**: `blog.wisnubaldas.net`
+- **Environment Variables**:
+  - `SECRET_KEY`: secret key unik produksi
+  - `DEBUG`: `False`
+  - `ALLOWED_HOSTS`: `blog.wisnubaldas.net,.vercel.app`
+  - `CSRF_TRUSTED_ORIGINS`: `https://blog.wisnubaldas.net,https://*.vercel.app`
+  - `MAIN_PROFILE_URL`: `https://wisnubaldas.net`
+  - `DATABASE_URL`: Connection string PostgreSQL managed (Supabase)
 
 ---
 
 ## 📜 Lisensi & Penulis
 
 - **Penulis**: [Wisnu Hidayat](https://www.facebook.com/Wisnubaldas)
-- **Domain**: [wisnubaldas.net](https://wisnubaldas.net)
+- **Domain Portofolio**: [wisnubaldas.net](https://wisnubaldas.net)
+- **Domain Blog**: [blog.wisnubaldas.net](https://blog.wisnubaldas.net)
