@@ -14,7 +14,7 @@ def generate_captcha():
     question = f"Verifikasi Manusia: Berapa {num1} + {num2} = ?"
 
     signer = TimestampSigner()
-    token = signer.dumps({"ans": answer})
+    token = signer.sign(str(answer))
     return question, token
 
 
@@ -26,8 +26,7 @@ def verify_captcha(user_answer, token):
         return False
     try:
         signer = TimestampSigner()
-        data = signer.loads(token, max_age=600)  # Token valid for 10 minutes
-        expected_ans = str(data.get("ans"))
-        return str(user_answer).strip() == expected_ans
+        expected_ans = signer.unsign(token, max_age=600)  # Token valid for 10 minutes
+        return str(user_answer).strip() == str(expected_ans).strip()
     except (BadSignature, SignatureExpired, ValueError, AttributeError):
         return False
