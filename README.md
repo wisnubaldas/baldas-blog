@@ -137,11 +137,15 @@ Tambahkan variabel berikut pada **Settings > Environment Variables**:
 | `DATABASE_URL` | `postgresql://postgres.[ref]:[password]@aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres` | Connection string Supabase Pooler |
 
 ### 3. Build & Deploy
-Vercel akan menjalankan `buildCommand`:
-```bash
-python manage.py collectstatic --noinput
+File `django/vercel.json` mengarahkan Vercel untuk menjalankan `collectstatic` ke folder `staticfiles` dan meroute seluruh HTTP request ke WSGI Django di `api/index.py`:
+
+```json
+{
+  "buildCommand": "python manage.py collectstatic --noinput",
+  "outputDirectory": "staticfiles",
+  "rewrites": [{ "source": "/(.*)", "destination": "/api/index.py" }]
+}
 ```
-Semua request akan diarahkan ke `api/index.py` yang mengekspor WSGI Django.
 
 ---
 
