@@ -1,10 +1,13 @@
 """DatabaseStorage implementation for persistent serverless file storage."""
 
+import logging
 import mimetypes
 from django.conf import settings
 from django.core.files.base import ContentFile
 from django.core.files.storage import Storage
 from django.utils.deconstruct import deconstructible
+
+logger = logging.getLogger(__name__)
 
 
 @deconstructible
@@ -21,34 +24,54 @@ class DatabaseStorage(Storage):
         return StoredFile
 
     def _open(self, name, mode="rb"):
-        StoredFile = self._get_model()
         clean_name = name.lstrip("/")
         try:
+            StoredFile = self._get_model()
             sf = StoredFile.objects.get(name=clean_name)
             return ContentFile(bytes(sf.content), name=clean_name)
-        except StoredFile.DoesNotExist:
-            raise FileNotFoundError(f"File '{clean_name}' not found in database storage.")
+        except Exception:
+            # Fallback to reading from MEDIA_ROOT if present
+            try:
+                target_path = settings.MEDIA_ROOT / clean_name
+                with open(target_path, "rb") as f:
+                    return ContentFile(f.read(), name=clean_name)
+            except Exception:
+                raise FileNotFoundError(f"File '{clean_name}' not found.")
 
     def _save(self, name, content):
-        StoredFile = self._get_model()
         clean_name = name.lstrip("/")
 
-        content.seek(0)
-        file_bytes = content.read()
+        try:
+            content.seek(0)
+            file_bytes = content.read()
+        except Exception:
+            file_bytes = b""
+
+        if isinstance(file_bytes, str):
+            file_bytes = file_bytes.encode("utf-8")
+        elif not isinstance(file_bytes, (bytes, bytearray, memoryview)):
+            file_bytes = bytes(file_bytes)
+        else:
+            file_bytes = bytes(file_bytes)
 
         mime_type, _ = mimetypes.guess_type(clean_name)
         mime_type = mime_type or "application/octet-stream"
 
-        StoredFile.objects.update_or_create(
-            name=clean_name,
-            defaults={
-                "content": file_bytes,
-                "content_type": mime_type,
-                "size": len(file_bytes),
-            },
-        )
+        # 1. Try DB save
+        try:
+            StoredFile = self._get_model()
+            StoredFile.objects.update_or_create(
+                name=clean_name,
+                defaults={
+                    "content": file_bytes,
+                    "content_type": mime_type,
+                    "size": len(file_bytes),
+                },
+            )
+        except Exception as e:
+            logger.warning(f"DatabaseStorage DB write warning for '{clean_name}': {e}")
 
-        # Cache on disk if MEDIA_ROOT is writable (for local dev speed)
+        # 2. Try disk save (local dev or /tmp)
         try:
             target_path = settings.MEDIA_ROOT / clean_name
             target_path.parent.mkdir(parents=True, exist_ok=True)
@@ -60,9 +83,14 @@ class DatabaseStorage(Storage):
         return clean_name
 
     def exists(self, name):
-        StoredFile = self._get_model()
         clean_name = name.lstrip("/")
-        return StoredFile.objects.filter(name=clean_name).exists()
+        try:
+            StoredFile = self._get_model()
+            if StoredFile.objects.filter(name=clean_name).exists():
+                return True
+        except Exception:
+            pass
+        return (settings.MEDIA_ROOT / clean_name).exists()
 
     def url(self, name):
         clean_name = name.lstrip("/")
@@ -72,15 +100,26 @@ class DatabaseStorage(Storage):
         return f"{media_url}{clean_name}"
 
     def size(self, name):
-        StoredFile = self._get_model()
         clean_name = name.lstrip("/")
         try:
+            StoredFile = self._get_model()
             sf = StoredFile.objects.get(name=clean_name)
             return sf.size or len(sf.content)
-        except StoredFile.DoesNotExist:
+        except Exception:
+            pass
+        try:
+            return (settings.MEDIA_ROOT / clean_name).stat().st_size
+        except Exception:
             return 0
 
     def delete(self, name):
-        StoredFile = self._get_model()
         clean_name = name.lstrip("/")
-        StoredFile.objects.filter(name=clean_name).delete()
+        try:
+            StoredFile = self._get_model()
+            StoredFile.objects.filter(name=clean_name).delete()
+        except Exception:
+            pass
+        try:
+            (settings.MEDIA_ROOT / clean_name).unlink(missing_ok=True)
+        except Exception:
+            pass

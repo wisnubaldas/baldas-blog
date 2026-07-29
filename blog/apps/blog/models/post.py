@@ -56,7 +56,13 @@ class Post(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(self.title)
+            base_slug = slugify(self.title) or "artikel"
+            slug = base_slug
+            counter = 1
+            while Post.objects.filter(slug=slug).exclude(pk=self.pk).exists():
+                slug = f"{base_slug}-{counter}"
+                counter += 1
+            self.slug = slug
         # Auto-set published_at when status changes to published
         if self.status == "published" and not self.published_at:
             self.published_at = timezone.now()
