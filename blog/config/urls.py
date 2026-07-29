@@ -24,9 +24,20 @@ def serve_media(request, path):
         pass
 
     try:
-        return serve(request, clean_path, document_root=settings.MEDIA_ROOT)
+        if (settings.MEDIA_ROOT / clean_path).exists():
+            return serve(request, clean_path, document_root=settings.MEDIA_ROOT)
     except Exception:
-        raise Http404(f"Media file '{path}' not found.")
+        pass
+
+    for static_dir in [
+        settings.BASE_DIR / "apps" / "blog" / "static",
+        settings.BASE_DIR / "static",
+        settings.BASE_DIR / "staticfiles",
+    ]:
+        if (static_dir / clean_path).exists():
+            return serve(request, clean_path, document_root=static_dir)
+
+    raise Http404(f"Media file '{path}' not found.")
 
 
 urlpatterns = [
