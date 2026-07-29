@@ -6,6 +6,10 @@
       "dest": "/staticfiles/$1"
     },
     {
+      "src": "/media/(.*)",
+      "dest": "/staticfiles/media/$1"
+    },
+    {
       "src": "/(.*)",
       "dest": "/api/index.py"
     }
