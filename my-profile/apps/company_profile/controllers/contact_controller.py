@@ -19,16 +19,18 @@ def contact(request: HttpRequest) -> HttpResponse:
         captcha_token = request.POST.get("captcha_token", "").strip()
 
         errors = {}
-        if honeypot:
-            errors["captcha"] = "Aktivitas terdeteksi sebagai spam otomatis."
         if not name:
             errors["name"] = "Nama wajib diisi."
         if not email:
             errors["email"] = "Email wajib diisi."
         if not message_body:
             errors["message"] = "Pesan wajib diisi."
-        if not honeypot and not verify_captcha(captcha_answer, captcha_token):
-            errors["captcha"] = "Jawaban verifikasi manusia (CAPTCHA) salah. Silakan coba lagi."
+
+        is_valid_captcha, captcha_msg = verify_captcha(
+            request, captcha_answer, captcha_token, honeypot_value=honeypot
+        )
+        if not is_valid_captcha:
+            errors["captcha"] = captcha_msg
 
         if not errors:
             # Save to DB
