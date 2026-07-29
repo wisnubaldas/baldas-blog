@@ -11,39 +11,42 @@ Project ini adalah situs web personal **Wisnu Hidayat** yang dibangun dengan **D
 > [!CAUTION]
 > Repository baru diinisialisasi. **Belum ada folder `django/`** (root aplikasi Django) sama sekali. Semua yang ada saat ini:
 
-| Item | Keterangan |
-|------|-----------|
-| `.agents/` | Referensi internal (data diri, template UI, portofolio) ✅ |
-| `.gitignore` | Ada tapi sangat minimal |
-| `AGENTS.md` | Instruksi agent lengkap ✅ |
-| `README.md` | Ada |
-| `django/` | ❌ **BELUM ADA** — perlu dibuat dari awal |
+| Item         | Keterangan                                                 |
+| ------------ | ---------------------------------------------------------- |
+| `.agents/`   | Referensi internal (data diri, template UI, portofolio) ✅ |
+| `.gitignore` | Ada tapi sangat minimal                                    |
+| `AGENTS.md`  | Instruksi agent lengkap ✅                                 |
+| `README.md`  | Ada                                                        |
+| `django/`    | ❌ **BELUM ADA** — perlu dibuat dari awal                  |
 
 ---
 
 ## Bahan Referensi yang Tersedia
 
 ### 1. Data Diri (`.agents/data-diri/`)
-| File | Keterangan |
-|------|-----------|
-| `Wisnu_Hidayat_CV_2026_Modern.pdf` | CV terbaru (utama) |
-| `Wisnu_Hidayat_CV_2025.pdf` | CV 2025 |
+
+| File                                      | Keterangan           |
+| ----------------------------------------- | -------------------- |
+| `Wisnu_Hidayat_CV_2026_Modern.pdf`        | CV terbaru (utama)   |
+| `Wisnu_Hidayat_CV_2025.pdf`               | CV 2025              |
 | `Form Daftar Riwayat Hidup HK GROUP.docx` | Riwayat hidup detail |
-| `Sertifikat_ijazah-1.pdf` | Sertifikat/Ijazah |
+| `Sertifikat_ijazah-1.pdf`                 | Sertifikat/Ijazah    |
 
 ### 2. Template UI (`.agents/template-ui/`)
-| Folder | Template yang Tersedia |
-|--------|----------------------|
-| `one-page-parallax/` | `index.html`, `index_default_header.html`, `index_inverse_header.html`, `extra_element.html` |
-| `blog/` | `index.html`, `post_grid.html`, `post_detail.html`, `post_without_sidebar.html`, `about_me.html`, `contact_us.html`, `carousel-post_detail.html` |
-| `assets/` | `css/`, `js/`, `img/`, `plugins/` |
+
+| Folder               | Template yang Tersedia                                                                                                                           |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `one-page-parallax/` | `index.html`, `index_default_header.html`, `index_inverse_header.html`, `extra_element.html`                                                     |
+| `blog/`              | `index.html`, `post_grid.html`, `post_detail.html`, `post_without_sidebar.html`, `about_me.html`, `contact_us.html`, `carousel-post_detail.html` |
+| `assets/`            | `css/`, `js/`, `img/`, `plugins/`                                                                                                                |
 
 ### 3. Portofolio (`.agents/portopolio/`)
-| Item | Keterangan |
-|------|-----------|
+
+| Item                                  | Keterangan                |
+| ------------------------------------- | ------------------------- |
 | `Screenshoot Portopolio PT SEIV.docx` | Screenshot proyek PT SEIV |
-| `iderp/` | Folder proyek iDERP |
-| `tps/` | Folder proyek TPS |
+| `iderp/`                              | Folder proyek iDERP       |
+| `tps/`                                | Folder proyek TPS         |
 
 ---
 
@@ -77,6 +80,7 @@ blog-baldas/
 ## Rencana Implementasi Bertahap
 
 ### 🔴 Fase 1 — Bootstrap Django (Prioritas Tertinggi)
+
 - [ ] Buat struktur folder `django/` sesuai AGENTS.md
 - [ ] Setup `config/settings.py` (dev + production-ready)
 - [ ] Setup `requirements.txt` (Django, HTMX, whitenoise, dll)
@@ -84,6 +88,7 @@ blog-baldas/
 - [ ] Perbarui `.gitignore`
 
 ### 🟠 Fase 2 — App `company_profile` (Portofolio)
+
 - [ ] Buat struktur package: `controllers/`, `models/`, `urls/`
 - [ ] Ekstrak data pribadi dari CV/data-diri ke model DB
 - [ ] Model: `Profile`, `Skill`, `Experience`, `Project`
@@ -92,6 +97,7 @@ blog-baldas/
 - [ ] Setup admin untuk kelola konten portofolio
 
 ### 🟡 Fase 3 — App `blog`
+
 - [ ] Buat struktur package: `controllers/`, `models/`, `urls/`
 - [ ] Model: `Post`, `Category`, `Tag`
 - [ ] Implementasi template dari `blog/index.html`, `post_detail.html`, dll.
@@ -99,6 +105,7 @@ blog-baldas/
 - [ ] Setup admin blog (list_display, pencarian, filter, slug)
 
 ### 🟢 Fase 4 — Polish & Deployment
+
 - [ ] `collectstatic` + konfigurasi WhiteNoise
 - [ ] Verifikasi Vercel deployment
 - [ ] SEO & semantik HTML
@@ -108,15 +115,15 @@ blog-baldas/
 
 ## Keputusan Teknis Penting
 
-| Aspek | Keputusan |
-|-------|-----------|
-| **Stack** | Django + HTMX + SQLite (dev) |
-| **Templating** | Django MVT murni — bukan SPA/API |
-| **CSS/JS** | Gunakan bundle tema yang ada, bukan tulis ulang |
+| Aspek                 | Keputusan                                                    |
+| --------------------- | ------------------------------------------------------------ |
+| **Stack**             | Django + HTMX + SQLite (dev)                                 |
+| **Templating**        | Django MVT murni — bukan SPA/API                             |
+| **CSS/JS**            | Gunakan bundle tema yang ada, bukan tulis ulang              |
 | **Package structure** | `controllers/` bukan `views.py`, `models/` bukan `models.py` |
-| **Database** | SQLite untuk dev; PostgreSQL untuk production Vercel |
-| **Static** | WhiteNoise untuk production |
-| **Deployment** | Vercel dengan Root Directory = `django/` |
+| **Database**          | SQLite untuk dev; PostgreSQL untuk production Vercel         |
+| **Static**            | WhiteNoise untuk production                                  |
+| **Deployment**        | Vercel dengan Root Directory = `django/`                     |
 
 ---
 

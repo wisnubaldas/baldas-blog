@@ -83,11 +83,15 @@ TEMPLATES = [
 WSGI_APPLICATION = "config.wsgi.application"
 
 # ─── Database ──────────────────────────────────────────────────────────────────
+# Dynamic selection:
+# - Production (DEBUG=False): Uses PostgreSQL via DATABASE_URL
+# - Local Dev (DEBUG=True): Uses SQLite (db.sqlite3) by default, or PostgreSQL if USE_POSTGRES=True
 _database_url = config("DATABASE_URL", default="")
 _is_collectstatic = "collectstatic" in sys.argv
+_use_postgres = config("USE_POSTGRES", default=not DEBUG, cast=bool)
 
 _has_psycopg = False
-if _database_url and not _is_collectstatic:
+if _database_url and _use_postgres and not _is_collectstatic:
     try:
         import psycopg2  # noqa: F401
         _has_psycopg = True
@@ -98,7 +102,7 @@ if _database_url and not _is_collectstatic:
         except Exception:
             _has_psycopg = False
 
-if _database_url and not _is_collectstatic and _has_psycopg:
+if _database_url and _use_postgres and not _is_collectstatic and _has_psycopg:
     DATABASES = {
         "default": dj_database_url.parse(
             _database_url,
