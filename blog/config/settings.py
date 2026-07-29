@@ -152,7 +152,8 @@ if not DEBUG:
 
 # ─── Media Files ────────────────────────────────────────────────────────────────
 MEDIA_URL = "/media/"
-MEDIA_ROOT = BASE_DIR / "static" / "media"
+MEDIA_ROOT = BASE_DIR / "apps" / "blog" / "static"
+
 
 
 
