@@ -1,0 +1,53 @@
+{% load static %}
+<!-- ============================= PORTFOLIO / WORK ============================= -->
+<div id="work" class="content" data-scrollview="true">
+  <div class="container" data-animation="true" data-animation-type="animate__fadeInDown">
+    <h2 class="content-title">Portofolio Terbaru</h2>
+    <p class="content-desc">Beberapa proyek terpilih yang pernah saya kerjakan.</p>
+
+    <div class="row row-space-10">
+      {% if projects %}
+        {% for project in projects %}
+        <div class="col-lg-3 col-md-4">
+          <div class="work">
+            <div class="image">
+              {% if project.cover_image %}
+              <a href="{% url 'company_profile:project_detail' project.slug %}">
+                <img src="{{ project.cover_image.url }}" alt="{{ project.title }}" />
+              </a>
+              {% elif project.images.exists %}
+              <a href="{% url 'company_profile:project_detail' project.slug %}">
+                <img src="{{ project.images.first.image.url }}" alt="{{ project.title }}" />
+              </a>
+              {% else %}
+              <a href="{% url 'company_profile:project_detail' project.slug %}">
+                <img src="{% static 'company_profile/img/work/work-img-1.jpg' %}" alt="{{ project.title }}" />
+              </a>
+              {% endif %}
+            </div>
+            <div class="desc">
+              <span class="desc-title">{{ project.title }}</span>
+              <span class="desc-text">{{ project.short_description|truncatewords:6 }}</span>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      {% else %}
+        <!-- Placeholder portfolio items -->
+        {% for num in '12345678' %}
+        <div class="col-lg-3 col-md-4">
+          <div class="work">
+            <div class="image">
+              <a href="#"><img src="{% static 'company_profile/img/work/work-img-1.jpg' %}" alt="Proyek Portofolio" /></a>
+            </div>
+            <div class="desc">
+              <span class="desc-title">Tambahkan Proyek</span>
+              <span class="desc-text">via admin Django</span>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      {% endif %}
+    </div>
+  </div>
+</div>

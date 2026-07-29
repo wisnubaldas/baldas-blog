@@ -1,0 +1,236 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8" />
+<title>{{ project.title }} — Portofolio Wisnu Hidayat</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta name="description" content="{{ project.short_description|truncatechars:160 }}" />
+<meta name="author" content="{% if profile %}{{ profile.full_name }}{% else %}Wisnu Hidayat{% endif %}" />
+
+<!-- Favicons -->
+<link rel="icon" type="image/x-icon" href="{% static 'company_profile/favicon.ico' %}" />
+<link rel="apple-touch-icon" sizes="180x180" href="{% static 'company_profile/apple-touch-icon.png' %}" />
+
+<!-- Open Graph -->
+<meta property="og:title" content="{{ project.title }} — Portofolio Wisnu Hidayat" />
+<meta property="og:description" content="{{ project.short_description|truncatechars:160 }}" />
+<meta property="og:type" content="article" />
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+
+<!-- Theme CSS -->
+<link href="{% static 'company_profile/css/vendor.min.css' %}" rel="stylesheet" />
+<link href="{% static 'company_profile/css/app.min.css' %}" rel="stylesheet" />
+
+<style>
+  .navbar-brand .brand-text { font-weight: 700; }
+  .header.navbar { background: #1a2229 !important; position: sticky; top: 0; z-index: 1020; }
+  .project-detail-header { background: #242a30; color: #fff; padding: 50px 0 40px; }
+  .project-detail-header h1 { font-weight: 700; color: #fff; margin-bottom: 10px; }
+  .project-detail-header p { color: #a8b6c1; font-size: 1.1rem; }
+  .project-card { background: #fff; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); padding: 30px; margin-bottom: 30px; }
+  .project-cover-img { width: 100%; border-radius: 8px; max-height: 480px; object-fit: cover; margin-bottom: 25px; }
+  .project-gallery-img { width: 100%; border-radius: 6px; margin-bottom: 15px; transition: transform 0.2s; }
+  .project-gallery-img:hover { transform: scale(1.02); }
+  .sidebar-box { background: #f8f9fa; border-radius: 8px; padding: 25px; border: 1px solid #e9ecef; }
+  .sidebar-box h4 { font-weight: 700; margin-bottom: 20px; border-bottom: 2px solid #00acac; padding-bottom: 8px; display: inline-block; }
+  .meta-item { margin-bottom: 15px; }
+  .meta-item label { display: block; font-size: 0.825rem; text-transform: uppercase; color: #6c757d; font-weight: 600; margin-bottom: 2px; }
+  .meta-item span { font-size: 1rem; color: #2d353c; font-weight: 500; }
+  .badge-tag { font-size: 0.85rem; padding: 6px 12px; border-radius: 4px; color: #fff; font-weight: 500; margin-right: 5px; margin-bottom: 5px; display: inline-block; }
+</style>
+</head>
+
+<body>
+
+<div id="page-container" class="fade show">
+
+  <!-- NAVBAR -->
+  <div id="header" class="header navbar navbar-expand-lg navbar-dark">
+    <div class="container">
+      <a href="{% url 'company_profile:home' %}" class="navbar-brand">
+        <span class="brand-logo"></span>
+        <span class="brand-text">
+          <span class="text-primary">Wisnu</span> Hidayat
+        </span>
+      </a>
+
+      <button type="button" class="navbar-toggle collapsed" data-bs-toggle="collapse" data-bs-target="#header-navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="header-navbar">
+        <ul class="nav navbar-nav navbar-end">
+          <li class="nav-item"><a class="nav-link" href="{% url 'company_profile:home' %}#home">HOME</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url 'company_profile:home' %}#about">TENTANG</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url 'company_profile:home' %}#experience">PENGALAMAN</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url 'company_profile:home' %}#service">KEAHLIAN</a></li>
+          <li class="nav-item"><a class="nav-link active" href="{% url 'company_profile:home' %}#work">PORTOFOLIO</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url 'company_profile:home' %}#contact">KONTAK</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ BLOG_URL }}">BLOG</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- HEADER BANNER -->
+  <div class="project-detail-header">
+    <div class="container">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb bg-transparent p-0 mb-3" style="font-size: 0.9rem;">
+          <li class="breadcrumb-item"><a href="{% url 'company_profile:home' %}" class="text-primary">Beranda</a></li>
+          <li class="breadcrumb-item"><a href="{% url 'company_profile:home' %}#work" class="text-primary">Portofolio</a></li>
+          <li class="breadcrumb-item active text-white-50" aria-current="page">{{ project.title }}</li>
+        </ol>
+      </nav>
+      <h1>{{ project.title }}</h1>
+      <p class="mb-0">{{ project.short_description }}</p>
+    </div>
+  </div>
+
+
+  <!-- MAIN CONTENT -->
+  <div class="content py-5 bg-silver-lighter" style="min-height: 60vh;">
+    <div class="container">
+      <div class="row">
+
+        <!-- Detail Kiri -->
+        <div class="col-lg-8">
+          <div class="project-card">
+            {% if project.cover_image %}
+            <img src="{{ project.cover_image.url }}" alt="{{ project.title }}" class="project-cover-img" />
+            {% elif project.images.exists %}
+            <img src="{{ project.images.first.image.url }}" alt="{{ project.title }}" class="project-cover-img" />
+            {% else %}
+            <img src="{% static 'company_profile/img/work/work-img-1.jpg' %}" alt="{{ project.title }}" class="project-cover-img" />
+            {% endif %}
+
+            <h3 class="mb-3 font-weight-bold">Deskripsi Proyek</h3>
+            <div class="project-description mb-4" style="line-height: 1.8; color: #495057;">
+              {% if project.description %}
+                {{ project.description|linebreaks }}
+              {% else %}
+                <p>{{ project.short_description }}</p>
+              {% endif %}
+            </div>
+
+            <!-- Galeri Foto Tambahan jika ada -->
+            {% if project.images.exists %}
+            <h4 class="mb-3 font-weight-bold">Galeri / Screenshot Proyek</h4>
+            <div class="row">
+              {% for img in project.images.all %}
+              <div class="col-md-6 mb-3">
+                <a href="{{ img.image.url }}" target="_blank" title="{{ img.caption|default:project.title }}">
+                  <img src="{{ img.image.url }}" alt="{{ img.caption|default:project.title }}" class="project-gallery-img" />
+                </a>
+                {% if img.caption %}
+                <small class="text-muted d-block text-center">{{ img.caption }}</small>
+                {% endif %}
+              </div>
+              {% endfor %}
+            </div>
+            {% endif %}
+          </div>
+        </div>
+
+
+        <!-- Sidebar Kanan -->
+        <div class="col-lg-4">
+          <div class="sidebar-box mb-4">
+            <h4>Informasi Proyek</h4>
+
+            {% if project.client %}
+            <div class="meta-item">
+              <label><i class="fa fa-building me-1"></i> Klien / Perusahaan</label>
+              <span>{{ project.client }}</span>
+            </div>
+            {% endif %}
+
+            {% if project.role %}
+            <div class="meta-item">
+              <label><i class="fa fa-user-tag me-1"></i> Peran</label>
+              <span>{{ project.role }}</span>
+            </div>
+            {% endif %}
+
+            {% if project.year %}
+            <div class="meta-item">
+              <label><i class="fa fa-calendar-alt me-1"></i> Tahun</label>
+              <span>{{ project.year }}</span>
+            </div>
+            {% endif %}
+
+            <div class="meta-item">
+              <label><i class="fa fa-tasks me-1"></i> Status</label>
+              <span>
+                {% if project.status == 'completed' %}
+                <span class="badge bg-success">Selesai</span>
+                {% elif project.status == 'ongoing' %}
+                <span class="badge bg-warning text-dark">Berlangsung</span>
+                {% else %}
+                <span class="badge bg-info text-white">Dipelihara</span>
+                {% endif %}
+              </span>
+            </div>
+
+            {% if project.tags.exists %}
+            <div class="meta-item mt-3">
+              <label><i class="fa fa-tags me-1"></i> Teknologi</label>
+              <div>
+                {% for tag in project.tags.all %}
+                <span class="badge-tag" style="background-color: {{ tag.color|default:'#6c757d' }};">
+                  {{ tag.name }}
+                </span>
+                {% endfor %}
+              </div>
+            </div>
+            {% endif %}
+
+            {% if project.url %}
+            <div class="mt-4">
+              <a href="{{ project.url }}" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-block w-100">
+                <i class="fa fa-external-link-alt me-1"></i> Kunjungi Proyek
+              </a>
+            </div>
+            {% endif %}
+
+            <div class="mt-3">
+              <a href="{% url 'company_profile:home' %}#work" class="btn btn-outline-secondary btn-block w-100">
+                <i class="fa fa-arrow-left me-1"></i> Kembali ke Portofolio
+              </a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+  <!-- FOOTER -->
+  <div id="footer" class="footer">
+    <div class="container">
+      <div class="footer-brand">
+        <div class="footer-brand-logo"></div>
+        {% if profile %}{{ profile.full_name }}{% else %}Wisnu Hidayat{% endif %}
+      </div>
+      <p>
+        &copy; Copyright {% now "Y" %} {% if profile %}{{ profile.full_name }}{% else %}Wisnu Hidayat{% endif %}<br />
+        Dibangun dengan Django, HTMX &amp; ❤️
+      </p>
+    </div>
+  </div>
+
+</div>
+
+<!-- Theme JS -->
+<script src="{% static 'company_profile/js/vendor.min.js' %}"></script>
+<script src="{% static 'company_profile/js/app.min.js' %}"></script>
+
+</body>
+</html>

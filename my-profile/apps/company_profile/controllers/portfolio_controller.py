@@ -23,5 +23,7 @@ def list_projects(request: HttpRequest) -> HttpResponse:
 
 def project_detail(request: HttpRequest, slug: str) -> HttpResponse:
     """Single project detail page."""
+    profile = Profile.objects.filter(is_active=True).first()
     project = get_object_or_404(Project, slug=slug, is_visible=True)
-    return render(request, "company_profile/portfolio_detail.html", {"project": project})
+    return render(request, "company_profile/portfolio_detail.html", {"project": project, "profile": profile})
+

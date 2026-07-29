@@ -1,0 +1,109 @@
+<!-- ============================= ABOUT ============================= -->
+<div id="about" class="content" data-scrollview="true">
+  <div class="container" data-animation="true" data-animation-type="animate__fadeInDown">
+    <h2 class="content-title">Tentang Saya</h2>
+    <p class="content-desc">
+      {% if profile %}{{ profile.bio }}{% else %}Seorang developer berpengalaman dengan semangat membangun produk digital berkualitas.{% endif %}
+    </p>
+
+    <div class="row">
+
+      <!-- Foto & Quote -->
+      <div class="col-lg-4">
+        <div class="about">
+          {% if profile and profile.photo %}
+          <div class="text-center mb-4">
+            <img src="{{ profile.photo.url }}" alt="{{ profile.full_name }}" class="about-photo" />
+          </div>
+          {% endif %}
+          <h3 class="mb-3">Profil Singkat</h3>
+          <p>{% if profile %}{{ profile.bio_detail|default:profile.bio }}{% else %}Placeholder bio — isi melalui admin Django.{% endif %}</p>
+        </div>
+      </div>
+
+      <!-- Quote / Philosophy -->
+      <div class="col-lg-4">
+        <h3 class="mb-3">Filosofi Kerja</h3>
+        <div class="about-author">
+          <div class="quote">
+            <i class="fa fa-quote-left"></i>
+            <h3>Kode yang baik adalah<br /><span>solusi yang bertahan lama</span></h3>
+            <i class="fa fa-quote-right"></i>
+          </div>
+          <div class="author">
+            {% if profile and profile.photo %}
+            <div class="image">
+              <img src="{{ profile.photo.url }}" alt="{{ profile.full_name }}" />
+            </div>
+            {% endif %}
+            <div class="info">
+              {% if profile %}{{ profile.full_name }}{% else %}Wisnu Hidayat{% endif %}
+              <small>{% if profile %}{{ profile.tagline }}{% else %}Full Stack Developer{% endif %}</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Skills -->
+      <div class="col-lg-4 skill-section">
+        <h3 class="mb-3">Keahlian Utama</h3>
+        <div class="skills">
+          {% if profile and profile.skills.exists %}
+            {% for skill in profile.skills.all|slice:":5" %}
+            <div class="skills-name">{{ skill.name }}</div>
+            <div class="progress mb-3">
+              <div class="progress-bar progress-bar-striped progress-bar-animated bg-theme" style="width: {{ skill.level }}%">
+                <span class="progress-number">{{ skill.level }}%</span>
+              </div>
+            </div>
+            {% endfor %}
+          {% else %}
+            <!-- Placeholder skills — isi via admin -->
+            <div class="skills-name">Python / Django</div>
+            <div class="progress mb-3">
+              <div class="progress-bar progress-bar-striped progress-bar-animated bg-theme" style="width: 90%">
+                <span class="progress-number">90%</span>
+              </div>
+            </div>
+            <div class="skills-name">JavaScript / HTMX</div>
+            <div class="progress mb-3">
+              <div class="progress-bar progress-bar-striped progress-bar-animated bg-theme" style="width: 80%">
+                <span class="progress-number">80%</span>
+              </div>
+            </div>
+            <div class="skills-name">Database (SQL)</div>
+            <div class="progress mb-3">
+              <div class="progress-bar progress-bar-striped progress-bar-animated bg-theme" style="width: 85%">
+                <span class="progress-number">85%</span>
+              </div>
+            </div>
+            <div class="skills-name">UI / UX Design</div>
+            <div class="progress mb-3">
+              <div class="progress-bar progress-bar-striped progress-bar-animated bg-theme" style="width: 75%">
+                <span class="progress-number">75%</span>
+              </div>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Social Links -->
+    {% if profile and profile.social_links.exists %}
+    <div class="row mt-4">
+      <div class="col-12 text-center">
+        {% for link in profile.social_links.all %}
+        {% if link.is_visible %}
+        <a href="{{ link.url }}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-default me-2 mb-2">
+          {% if link.icon_class %}<i class="{{ link.icon_class }}"></i>{% endif %}
+          {{ link.get_platform_display }}
+        </a>
+        {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+
+  </div>
+</div>

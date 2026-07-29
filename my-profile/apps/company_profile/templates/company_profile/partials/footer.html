@@ -1,0 +1,25 @@
+<!-- ============================= FOOTER ============================= -->
+<div id="footer" class="footer">
+  <div class="container">
+    <div class="footer-brand">
+      <div class="footer-brand-logo"></div>
+      {% if profile %}{{ profile.full_name }}{% else %}Wisnu Hidayat{% endif %}
+    </div>
+    <p>
+      &copy; Copyright {% now "Y" %} {% if profile %}{{ profile.full_name }}{% else %}Wisnu Hidayat{% endif %}<br />
+      Dibangun dengan Django, HTMX &amp; ❤️
+    </p>
+    <p class="social-list">
+      <a href="https://www.facebook.com/Wisnubaldas" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook-f fa-fw"></i></a>
+      {% if profile %}
+      {% for link in profile.social_links.all %}
+        {% if link.is_visible and link.platform != 'facebook' %}
+        <a href="{{ link.url }}" target="_blank" rel="noopener noreferrer">
+          {% if link.icon_class %}<i class="{{ link.icon_class }} fa-fw"></i>{% else %}<i class="fa fa-link fa-fw"></i>{% endif %}
+        </a>
+        {% endif %}
+      {% endfor %}
+      {% endif %}
+    </p>
+  </div>
+</div>

@@ -1,0 +1,37 @@
+{% load static %}
+<!-- ============================= MILESTONE / STATS ============================= -->
+<div id="milestone" class="content bg-black-darker has-bg" data-scrollview="true">
+  <div class="content-bg" style="background-image: url({% static 'company_profile/img/bg/bg-milestone.jpg' %})"
+       data-paroller="true" data-paroller-factor="0.5" data-paroller-factor-md="0.01" data-paroller-factor-xs="0.01">
+  </div>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-3 milestone-col">
+        <div class="milestone">
+          <div class="number" data-animation="true" data-animation-type="number" data-final-number="5">5</div>
+          <div class="title">Tahun Pengalaman</div>
+        </div>
+      </div>
+      <div class="col-lg-3 milestone-col">
+        <div class="milestone">
+          <div class="number" data-animation="true" data-animation-type="number"
+               data-final-number="{{ projects|length|default:'10' }}">{{ projects|length|default:'10' }}</div>
+          <div class="title">Proyek Selesai</div>
+        </div>
+      </div>
+      <div class="col-lg-3 milestone-col">
+        <div class="milestone">
+          <div class="number" data-animation="true" data-animation-type="number" data-final-number="100">100</div>
+          <div class="title">Klien Puas</div>
+        </div>
+      </div>
+      <div class="col-lg-3 milestone-col">
+        <div class="milestone">
+          <div class="number" data-animation="true" data-animation-type="number" data-final-number="10">10</div>
+          <div class="title">Teknologi Dikuasai</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

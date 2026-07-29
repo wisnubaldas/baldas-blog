@@ -1,0 +1,19 @@
+{% load static %}
+<!-- ============================= HERO ============================= -->
+<div id="home" class="content has-bg home">
+  <div class="content-bg" style="background-image: url({% static 'company_profile/img/bg/bg-home.jpg' %});"
+       data-paroller="true" data-paroller-factor="0.5" data-paroller-factor-xs="0.25">
+  </div>
+
+  <div class="container home-content">
+    <h1>{% if profile %}{{ profile.full_name }}{% else %}Wisnu Hidayat{% endif %}</h1>
+    <h3>{% if profile %}{{ profile.tagline }}{% else %}Full Stack Developer{% endif %}</h3>
+    <p>{% if profile %}{{ profile.bio }}{% else %}Membangun solusi digital yang bermakna dengan teknologi modern.{% endif %}</p>
+    {% if profile and profile.resume_file %}
+      <a href="{{ profile.resume_file.url }}" download target="_blank" class="btn btn-theme btn-primary"><i class="fa fa-download me-1"></i> Download CV (PDF)</a>
+    {% else %}
+      <a href="{% static 'company_profile/pdf/cv_wisnu_hidayat.pdf' %}" download target="_blank" class="btn btn-theme btn-primary"><i class="fa fa-download me-1"></i> Download CV (PDF)</a>
+    {% endif %}
+    <a href="#contact" data-click="scroll-to-target" class="btn btn-theme btn-outline-white">Hubungi Saya</a>
+  </div>
+</div>

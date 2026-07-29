@@ -1,0 +1,67 @@
+<!-- ============================= EXPERIENCE / TIMELINE ============================= -->
+<div id="experience" class="content" data-scrollview="true">
+  <div class="container" data-animation="true" data-animation-type="animate__fadeInDown">
+    <h2 class="content-title">Pengalaman & Pendidikan</h2>
+    <p class="content-desc">Perjalanan karier dan pendidikan yang membentuk keahlian saya.</p>
+
+    <div class="row">
+      {% if experiences %}
+        <!-- Work Experiences -->
+        <div class="col-lg-6">
+          <h3 class="mb-4"><i class="fa fa-briefcase text-primary me-2"></i>Pengalaman Kerja</h3>
+          {% for exp in experiences %}
+            {% if exp.type == 'work' %}
+            <div class="service mb-4">
+              <div class="info">
+                <h4 class="title">{{ exp.title }}</h4>
+                <div class="text-primary mb-1"><strong>{{ exp.organization }}</strong>{% if exp.location %} — {{ exp.location }}{% endif %}</div>
+                <small class="text-muted">{{ exp.period }}</small>
+                {% if exp.description %}<p class="desc mt-2">{{ exp.description }}</p>{% endif %}
+              </div>
+            </div>
+            {% endif %}
+          {% empty %}
+            <div class="service mb-4">
+              <div class="info">
+                <h4 class="title">Full Stack Developer</h4>
+                <div class="text-primary mb-1"><strong>PT. Contoh Perusahaan</strong></div>
+                <small class="text-muted">Jan 2020 – Sekarang</small>
+                <p class="desc mt-2">Tambahkan pengalaman melalui admin Django.</p>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+
+        <!-- Education -->
+        <div class="col-lg-6">
+          <h3 class="mb-4"><i class="fa fa-graduation-cap text-primary me-2"></i>Pendidikan</h3>
+          {% for exp in experiences %}
+            {% if exp.type == 'education' %}
+            <div class="service mb-4">
+              <div class="info">
+                <h4 class="title">{{ exp.title }}</h4>
+                <div class="text-primary mb-1"><strong>{{ exp.organization }}</strong></div>
+                <small class="text-muted">{{ exp.period }}</small>
+                {% if exp.description %}<p class="desc mt-2">{{ exp.description }}</p>{% endif %}
+              </div>
+            </div>
+            {% endif %}
+          {% empty %}
+            <div class="service mb-4">
+              <div class="info">
+                <h4 class="title">Sarjana Teknik Informatika</h4>
+                <div class="text-primary mb-1"><strong>Universitas Contoh</strong></div>
+                <small class="text-muted">2016 – 2020</small>
+                <p class="desc mt-2">Tambahkan pendidikan melalui admin Django.</p>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="col-12">
+          <p class="text-center text-muted">Data pengalaman belum tersedia. Tambahkan melalui <a href="{% url 'admin:company_profile_experience_changelist' %}">admin Django</a>.</p>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</div>

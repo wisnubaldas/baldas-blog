@@ -1,0 +1,64 @@
+<!-- ============================= CONTACT ============================= -->
+<div id="contact" class="content bg-silver-lighter" data-scrollview="true">
+  <div class="container">
+    <h2 class="content-title">Hubungi Saya</h2>
+    <p class="content-desc">
+      Punya pertanyaan, proyek, atau sekadar ingin berkenalan? Jangan ragu untuk menghubungi saya.
+    </p>
+
+    <div class="row">
+
+      <!-- Info Kontak -->
+      <div class="col-lg-6" data-animation="true" data-animation-type="animate__fadeInLeft">
+        <h3>Mari Berdiskusi</h3>
+        <p>Saya terbuka untuk peluang freelance, proyek kolaborasi, maupun posisi full-time. Kirimkan pesan dan saya akan merespons secepat mungkin.</p>
+        <p>
+          {% if profile %}
+            {% if profile.location %}<strong>Lokasi:</strong> {{ profile.location }}<br />{% endif %}
+            {% if profile.phone %}<strong>Telepon:</strong> {{ profile.phone }}<br />{% endif %}
+            <span class="phone">
+              <a href="mailto:{{ profile.email }}" class="text-primary">{{ profile.email }}</a>
+            </span>
+          {% else %}
+            <strong>Email:</strong> <a href="mailto:wisnu@wisnubaldas.net" class="text-primary">wisnu@wisnubaldas.net</a>
+          {% endif %}
+        </p>
+
+        {% if profile and profile.social_links.all %}
+        <p>
+          {% for link in profile.social_links.all %}
+        {% if link.is_visible %}
+        <a href="{{ link.url }}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-default me-1 mb-1">
+          {% if link.icon_class %}<i class="{{ link.icon_class }}"></i>{% endif %}
+          {{ link.get_platform_display }}
+        </a>
+        {% endif %}
+        {% endfor %}
+        </p>
+        {% else %}
+        <p>
+          <a href="https://www.facebook.com/Wisnubaldas" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-default me-1 mb-1">
+            <i class="fab fa-facebook-f"></i> Facebook
+          </a>
+        </p>
+        {% endif %}
+      </div>
+
+      <!-- Form Kontak -->
+      <div class="col-lg-6 form-col" data-animation="true" data-animation-type="animate__fadeInRight">
+
+        <!-- Success message (shown after HTMX submit) -->
+        <div id="contact-success" class="alert alert-success contact-success" style="display:none;">
+          <i class="fa fa-check-circle me-2"></i>Pesan berhasil dikirim! Saya akan segera menghubungi Anda.
+        </div>
+
+        <!-- Contact Form -->
+        <div id="contact-form-wrapper">
+          {% include 'company_profile/partials/contact_form.html' %}
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>
