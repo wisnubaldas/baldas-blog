@@ -7,5 +7,7 @@ from apps.blog.models.category import Category
 from apps.blog.models.tag import Tag
 from apps.blog.models.post import Post
 from apps.blog.models.contact import ContactMessage
+from apps.blog.models.stored_file import StoredFile
 
-__all__ = ["Category", "Tag", "Post", "ContactMessage"]
+__all__ = ["Category", "Tag", "Post", "ContactMessage", "StoredFile"]
+

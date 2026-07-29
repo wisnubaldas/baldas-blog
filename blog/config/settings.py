@@ -142,15 +142,14 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 STATICFILES_DIRS = [BASE_DIR / "static"]
 
 
-if not DEBUG:
-    STORAGES = {
-        "staticfiles": {
-            "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
-        },
-        "default": {
-            "BACKEND": "django.core.files.storage.FileSystemStorage",
-        },
-    }
+STORAGES = {
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage" if not DEBUG else "django.contrib.staticfiles.storage.StaticFilesStorage",
+    },
+    "default": {
+        "BACKEND": "apps.blog.storage.DatabaseStorage",
+    },
+}
 
 # ─── Media Files ────────────────────────────────────────────────────────────────
 MEDIA_URL = "/media/"
@@ -195,7 +194,7 @@ CKEDITOR_5_CONFIGS = {
     },
 }
 
-CKEDITOR_5_FILE_STORAGE = "django.core.files.storage.FileSystemStorage"
+CKEDITOR_5_FILE_STORAGE = "apps.blog.storage.DatabaseStorage"
 CKEDITOR_5_UPLOAD_FILE_TYPES = ["jpeg", "pdf", "png", "svg", "gif", "webp"]
 
 # ─── Default Primary Key ────────────────────────────────────────────────────────

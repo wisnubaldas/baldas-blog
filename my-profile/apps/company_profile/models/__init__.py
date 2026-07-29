@@ -7,6 +7,7 @@ from apps.company_profile.models.profile import Profile, Skill, SocialLink
 from apps.company_profile.models.experience import Experience
 from apps.company_profile.models.project import Project, ProjectImage, ProjectTag
 from apps.company_profile.models.contact import ContactMessage
+from apps.company_profile.models.stored_file import StoredFile
 
 __all__ = [
     "Profile",
@@ -17,4 +18,5 @@ __all__ = [
     "ProjectImage",
     "ProjectTag",
     "ContactMessage",
+    "StoredFile",
 ]
