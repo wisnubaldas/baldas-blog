@@ -51,8 +51,8 @@ INSTALLED_APPS = [
     "django_htmx",
     # Local apps
     "apps.company_profile.apps.CompanyProfileConfig",
-    "apps.blog.apps.BlogConfig",
 ]
+
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",

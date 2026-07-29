@@ -47,9 +47,9 @@ INSTALLED_APPS = [
     "django_ckeditor_5",
     "django_htmx",
     # Local apps
-    "apps.company_profile.apps.CompanyProfileConfig",
     "apps.blog.apps.BlogConfig",
 ]
+
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
