@@ -47,9 +47,11 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     # Third-party
+    "django_ckeditor_5",
     "django_htmx",
-    # Local app
+    # Local apps
     "apps.company_profile.apps.CompanyProfileConfig",
+    "apps.blog.apps.BlogConfig",
 ]
 
 MIDDLEWARE = [
@@ -111,8 +113,8 @@ if _database_url and _use_postgres and not _is_collectstatic and _has_psycopg:
     DATABASES = {
         "default": dj_database_url.parse(
             _database_url,
-            conn_max_age=600,
-            conn_health_checks=True,
+            conn_max_age=config("CONN_MAX_AGE", default=0, cast=int),
+            ssl_require=True,
         )
     }
 else:
@@ -157,6 +159,34 @@ if not DEBUG:
 # ─── Media Files ────────────────────────────────────────────────────────────────
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
+
+# ─── CKEditor 5 ─────────────────────────────────────────────────────────────────
+CKEDITOR_5_CONFIGS = {
+    "default": {
+        "toolbar": {
+            "items": [
+                "heading", "|",
+                "bold", "italic", "underline", "strikethrough", "|",
+                "bulletedList", "numberedList", "blockQuote", "|",
+                "link", "insertImage", "insertTable", "|",
+                "undo", "redo",
+            ],
+            "shouldNotGroupWhenFull": True,
+        },
+        "image": {
+            "toolbar": ["imageTextAlternative", "|", "imageStyle:full", "imageStyle:side"],
+        },
+        "table": {
+            "contentToolbar": ["tableColumn", "tableRow", "mergeTableCells"],
+        },
+        "height": "400px",
+        "width": "100%",
+        "language": "id",
+    },
+}
+
+CKEDITOR_5_FILE_STORAGE = "django.core.files.storage.FileSystemStorage"
+CKEDITOR_5_UPLOAD_FILE_TYPES = ["jpeg", "pdf", "png", "svg", "gif", "webp"]
 
 # ─── Default Primary Key ────────────────────────────────────────────────────────
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"

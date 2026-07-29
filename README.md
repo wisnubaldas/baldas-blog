@@ -21,7 +21,9 @@ Dikembangkan menggunakan **Django 6.0**, **HTMX**, dan **SQLite (Dev) / Supabase
 - **Live Search HTMX**: Pencarian artikel secara *real-time* berbasis keyword tanpa reload halaman.
 - **Kategori & Tagging**: Filter artikel berdasarkan kategori dan tag teknis.
 - **Detail Artikel Kaya Format**: Editor `django-ckeditor-5`, breadcrumb, tombol share media sosial, dan rekomendasi artikel terkait.
-- **Kontak & About Me Blog**: Halaman kontak dan profil mandiri khusus konteks blog.
+### 👑 3. Unified Admin Dashboard (Full CRUD)
+- **Single Control Panel**: Akses Admin di `wisnubaldas.net/admin` maupun `blog.wisnubaldas.net/admin` menyajikan seluruh CRUD model database (`Profile`, `Skill`, `SocialLink`, `Experience`, `Project`, `Post`, `Category`, `Tag`, `ContactMessage`).
+- **Serverless PostgreSQL Resilience**: Konfigurasi koneksi database yang dioptimalkan untuk Vercel Serverless Function (pencegahan timeout & stale SSL socket).
 
 ---
 

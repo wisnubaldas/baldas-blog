@@ -46,7 +46,8 @@ INSTALLED_APPS = [
     # Third-party
     "django_ckeditor_5",
     "django_htmx",
-    # Local app
+    # Local apps
+    "apps.company_profile.apps.CompanyProfileConfig",
     "apps.blog.apps.BlogConfig",
 ]
 
@@ -107,8 +108,8 @@ if _database_url and _use_postgres and not _is_collectstatic and _has_psycopg:
     DATABASES = {
         "default": dj_database_url.parse(
             _database_url,
-            conn_max_age=600,
-            conn_health_checks=True,
+            conn_max_age=config("CONN_MAX_AGE", default=0, cast=int),
+            ssl_require=True,
         )
     }
 else:
