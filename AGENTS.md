@@ -110,8 +110,34 @@ Konfigurasi `vercel.json` di masing-masing folder:
 ```json
 {
   "buildCommand": "python manage.py collectstatic --noinput",
-  "rewrites": [{ "source": "/(.*)", "destination": "/api/index.py" }]
+  "routes": [
+    {
+      "src": "/static/(.*)",
+      "dest": "/staticfiles/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/api/index.py"
+    }
+  ]
 }
+```
+
+`api/index.py` di masing-masing folder:
+```python
+from config.wsgi import application
+
+def app(environ, start_response):
+    path_info = environ.get("PATH_INFO", "")
+    if path_info.startswith("/api/index.py"):
+        path_info = path_info[len("/api/index.py"):]
+    elif path_info.startswith("/api/index"):
+        path_info = path_info[len("/api/index"):]
+    if not path_info:
+        path_info = "/"
+    environ["PATH_INFO"] = path_info
+    environ["SCRIPT_NAME"] = ""
+    return application(environ, start_response)
 ```
 
 ### Aturan database pada Vercel
