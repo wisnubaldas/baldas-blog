@@ -5,7 +5,9 @@ Django settings for blog project (blog.wisnubaldas.net).
 from pathlib import Path
 from decouple import config, Csv
 import dj_database_url
+import os
 import sys
+import tempfile
 
 # ─── Base Paths ────────────────────────────────────────────────────────────────
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -152,7 +154,17 @@ if not DEBUG:
 
 # ─── Media Files ────────────────────────────────────────────────────────────────
 MEDIA_URL = "/media/"
-MEDIA_ROOT = BASE_DIR / "apps" / "blog" / "static"
+
+if config("VERCEL", default=False, cast=bool) or config("VERCEL_URL", default=""):
+    MEDIA_ROOT = Path(tempfile.gettempdir()) / "media"
+else:
+    _target_media_root = BASE_DIR / "media"
+    try:
+        _target_media_root.mkdir(parents=True, exist_ok=True)
+        MEDIA_ROOT = _target_media_root
+    except OSError:
+        MEDIA_ROOT = Path(tempfile.gettempdir()) / "media"
+
 
 
 

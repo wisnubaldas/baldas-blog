@@ -2,7 +2,9 @@
 Django settings for my-profile project (wisnubaldas.net).
 """
 
+import os
 import sys
+import tempfile
 from pathlib import Path
 
 import dj_database_url
@@ -159,7 +161,17 @@ if not DEBUG:
 
 # ─── Media Files ────────────────────────────────────────────────────────────────
 MEDIA_URL = "/media/"
-MEDIA_ROOT = BASE_DIR / "apps" / "company_profile" / "static"
+
+if config("VERCEL", default=False, cast=bool) or config("VERCEL_URL", default=""):
+    MEDIA_ROOT = Path(tempfile.gettempdir()) / "media"
+else:
+    _target_media_root = BASE_DIR / "media"
+    try:
+        _target_media_root.mkdir(parents=True, exist_ok=True)
+        MEDIA_ROOT = _target_media_root
+    except OSError:
+        MEDIA_ROOT = Path(tempfile.gettempdir()) / "media"
+
 
 
 
