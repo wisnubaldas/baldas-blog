@@ -1,0 +1,20 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+
+{% block title %}Kategori: {{ category.name }} — Blog Wisnu Hidayat{% endblock %}
+
+{% block hero_title %}Kategori: {{ category.name }}{% endblock %}
+{% block hero_subtitle %}{{ category.description|default:"Daftar artikel dalam kategori ini." }}{% endblock %}
+
+{% block content %}
+<div class="category-header mb-4 pb-2 border-bottom">
+  <h3 class="mb-1">
+    <i class="fa fa-folder-open text-primary me-2"></i>{{ category.name }}
+  </h3>
+  {% if category.description %}
+  <p class="text-muted mb-0">{{ category.description }}</p>
+  {% endif %}
+</div>
+
+{% include 'blog/partials/post_grid.html' %}
+{% endblock %}

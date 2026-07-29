@@ -1,0 +1,50 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+
+{% block title %}Tentang Saya — Wisnu Hidayat Blog{% endblock %}
+{% block hero_title %}Tentang Wisnu Hidayat{% endblock %}
+{% block hero_subtitle %}Pengembang Perangkat Lunak &amp; Penulis Teknis{% endblock %}
+
+{% block content %}
+<div class="about-me-container section-container bg-white p-4 rounded shadow-sm">
+  <div class="row align-items-center mb-4">
+    <div class="col-md-4 text-center mb-3 mb-md-0">
+      <img src="{% static 'blog/img/user/user-1.jpg' %}" alt="Wisnu Hidayat" class="img-fluid rounded-circle shadow" style="width: 180px; height: 180px; object-fit: cover;" />
+    </div>
+    <div class="col-md-8">
+      <h2 class="fw-bold mb-2">Wisnu Hidayat</h2>
+      <h5 class="text-primary mb-3">Full Stack Software Engineer</h5>
+      <p class="text-muted leading-relaxed">
+        Selamat datang di blog pribadi saya! Saya seorang software engineer berpengalaman yang berspesialisasi dalam ekosistem Python, Django, JavaScript, dan infrastruktur cloud. Melalui blog ini, saya membagikan catatan teknis, tutorial, tantangan arsitektur, dan wawasan dalam pengembangan perangkat lunak modern.
+      </p>
+    </div>
+  </div>
+
+  <div class="border-top pt-4 my-4">
+    <h4 class="fw-bold mb-3"><i class="fa fa-bullseye text-primary me-2"></i>Fokus &amp; Minat Utama</h4>
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <div class="p-3 bg-light rounded">
+          <h6 class="fw-bold"><i class="fa fa-server me-2 text-primary"></i>Backend &amp; Architecture</h6>
+          <p class="small text-muted mb-0">Django, RESTful API, PostgreSQL, SQLite, microservices, clean code, dan desain database performa tinggi.</p>
+        </div>
+      </div>
+      <div class="col-md-6 mb-3">
+        <div class="p-3 bg-light rounded">
+          <h6 class="fw-bold"><i class="fa fa-code me-2 text-primary"></i>Frontend Modern &amp; HTMX</h6>
+          <p class="small text-muted mb-0">Pendekatan Server-Driven UI menggunakan HTMX, Vanilla JS, CSS responsif, dan animasi antarmuka yang intuitif.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="text-center pt-3 border-top">
+    <a href="{% url 'company_profile:home' %}" class="btn btn-primary me-2">
+      <i class="fa fa-briefcase me-1"></i> Lihat Portofolio Lengkap
+    </a>
+    <a href="{% url 'blog:contact' %}" class="btn btn-outline-secondary">
+      <i class="fa fa-envelope me-1"></i> Hubungi Saya
+    </a>
+  </div>
+</div>
+{% endblock %}

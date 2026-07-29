@@ -1,0 +1,105 @@
+{% load static %}
+{% csrf_token %}
+<form id="contact-form"
+      class="form-horizontal"
+      hx-post="{% url 'company_profile:contact_send' %}"
+      hx-target="#contact-form-wrapper"
+      hx-swap="innerHTML"
+      hx-indicator="#contact-form">
+
+  {% csrf_token %}
+
+  {% if errors %}
+  <div class="alert alert-danger mb-3">
+    <ul class="mb-0">
+      {% for field, msg in errors.items %}
+      <li>{{ msg }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
+
+  <div class="row mb-3">
+    <label class="col-form-label col-lg-3 text-lg-right">
+      Nama <span class="text-primary">*</span>
+    </label>
+    <div class="col-lg-9">
+      <input type="text"
+             id="contact-name"
+             name="name"
+             class="form-control {% if errors.name %}is-invalid{% endif %}"
+             value="{{ form_data.name|default:'' }}"
+             placeholder="Nama lengkap Anda"
+             required />
+      {% if errors.name %}<div class="invalid-feedback">{{ errors.name }}</div>{% endif %}
+    </div>
+  </div>
+
+  <div class="row mb-3">
+    <label class="col-form-label col-lg-3 text-lg-right">
+      Email <span class="text-primary">*</span>
+    </label>
+    <div class="col-lg-9">
+      <input type="email"
+             id="contact-email"
+             name="email"
+             class="form-control {% if errors.email %}is-invalid{% endif %}"
+             value="{{ form_data.email|default:'' }}"
+             placeholder="email@anda.com"
+             required />
+      {% if errors.email %}<div class="invalid-feedback">{{ errors.email }}</div>{% endif %}
+    </div>
+  </div>
+
+  <div class="row mb-3">
+    <label class="col-form-label col-lg-3 text-lg-right">Subjek</label>
+    <div class="col-lg-9">
+      <input type="text"
+             id="contact-subject"
+             name="subject"
+             class="form-control"
+             value="{{ form_data.subject|default:'' }}"
+             placeholder="Perihal pesan Anda" />
+    </div>
+  </div>
+
+  <div class="row mb-3">
+    <label class="col-form-label col-lg-3 text-lg-right">
+      Pesan <span class="text-primary">*</span>
+    </label>
+    <div class="col-lg-9">
+      <textarea id="contact-message"
+                name="message"
+                class="form-control {% if errors.message %}is-invalid{% endif %}"
+                rows="8"
+                placeholder="Tulis pesan Anda di sini..."
+                required>{{ form_data.message|default:'' }}</textarea>
+      {% if errors.message %}<div class="invalid-feedback">{{ errors.message }}</div>{% endif %}
+    </div>
+  </div>
+
+  <div class="row mb-3">
+    <label class="col-form-label col-lg-3 text-lg-right"></label>
+    <div class="col-lg-9 text-left">
+      <button type="submit"
+              id="contact-submit"
+              class="btn btn-theme btn-primary btn-block contact-submit-btn">
+        <span class="htmx-indicator-hide">Kirim Pesan</span>
+        <span class="htmx-indicator-show" style="display:none;">
+          <i class="fa fa-spinner fa-spin me-2"></i>Mengirim...
+        </span>
+      </button>
+    </div>
+  </div>
+
+</form>
+
+<script>
+  // Show/hide loading indicator on HTMX request
+  document.getElementById('contact-form').addEventListener('htmx:beforeRequest', function() {
+    const btn = document.getElementById('contact-submit');
+    btn.querySelector('.htmx-indicator-hide').style.display = 'none';
+    btn.querySelector('.htmx-indicator-show').style.display = 'inline';
+    btn.disabled = true;
+  });
+</script>

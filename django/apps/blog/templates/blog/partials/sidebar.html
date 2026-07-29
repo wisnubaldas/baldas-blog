@@ -1,0 +1,68 @@
+{% load static %}
+
+<!-- SEARCH WIDGET -->
+<div class="section-container">
+  <h4 class="section-title"><span>Pencarian</span></h4>
+  <form action="{% url 'blog:search' %}" method="GET">
+    <div class="input-group">
+      <input type="text"
+             name="q"
+             class="form-control"
+             placeholder="Cari kata kunci..."
+             value="{{ query|default:'' }}"
+             hx-get="{% url 'blog:search' %}"
+             hx-target="#blog-main-content"
+             hx-trigger="keyup changed delay:350ms, search"
+             hx-push-url="true" />
+      <button class="btn btn-primary" type="submit"><i class="fa fa-search"></i></button>
+    </div>
+  </form>
+</div>
+
+<!-- CATEGORIES WIDGET -->
+<div class="section-container">
+  <h4 class="section-title"><span>Kategori</span></h4>
+  <ul class="sidebar-list">
+    {% for cat in categories %}
+    <li class="d-flex justify-content-between align-items-center py-2 border-bottom">
+      <a href="{% url 'blog:category' cat.slug %}" class="text-dark text-decoration-none">
+        <i class="fa fa-folder text-primary me-2"></i>{{ cat.name }}
+      </a>
+      <span class="badge bg-silver text-inverse">{{ cat.posts.published.count|default:"0" }}</span>
+    </li>
+    {% empty %}
+    <li class="text-muted">Belum ada kategori.</li>
+    {% endfor %}
+  </ul>
+</div>
+
+<!-- RECENT POSTS WIDGET -->
+<div class="section-container">
+  <h4 class="section-title"><span>Artikel Terbaru</span></h4>
+  <ul class="sidebar-recent-post">
+    {% for post in recent_posts %}
+    <li class="mb-3 border-bottom pb-2">
+      <div class="info">
+        <h5 class="title mb-1" style="font-size: 14px; font-weight: 600;">
+          <a href="{% url 'blog:post_detail' post.slug %}" class="text-dark text-decoration-none">{{ post.title }}</a>
+        </h5>
+        <div class="date text-muted" style="font-size: 12px;">
+          <i class="fa fa-calendar-alt me-1"></i>{{ post.published_at|date:"d M Y"|default:post.created_at|date:"d M Y" }}
+        </div>
+      </div>
+    </li>
+    {% empty %}
+    <li class="text-muted">Belum ada artikel.</li>
+    {% endfor %}
+  </ul>
+</div>
+
+<!-- FOLLOW US WIDGET -->
+<div class="section-container">
+  <h4 class="section-title"><span>Ikuti Saya</span></h4>
+  <ul class="sidebar-social-list">
+    <li><a href="https://www.facebook.com/Wisnubaldas" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook-f"></i></a></li>
+    <li><a href="https://github.com" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i></a></li>
+    <li><a href="https://linkedin.com" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin-in"></i></a></li>
+  </ul>
+</div>
