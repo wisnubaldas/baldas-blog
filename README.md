@@ -32,8 +32,8 @@ Dikembangkan menggunakan **Django 6.0**, **HTMX**, dan **SQLite (Dev) / Supabase
 - **Styling & Theme**: Vanilla CSS, Bootstrap, Color Admin Parallax & Blog Themes
 - **Rich Text Editor**: `django-ckeditor-5`
 - **Database**:
-  - Development Lokal: SQLite (`db.sqlite3` di masing-masing folder)
-  - Production Server: Supabase PostgreSQL
+  - Development Lokal: Shared SQLite (`db.sqlite3` di root repositori untuk `my-profile` & `blog`)
+  - Production Server: Supabase PostgreSQL (Shared database via `DATABASE_URL`)
 - **Static Files Storage**: WhiteNoise (`CompressedManifestStaticFilesStorage`)
 - **Deployment Platform**: Vercel (Dua Vercel project terpisah berbasis `my-profile/` dan `blog/`)
 
@@ -44,6 +44,7 @@ Dikembangkan menggunakan **Django 6.0**, **HTMX**, dan **SQLite (Dev) / Supabase
 ```text
 blog-baldas/
 ├── .agents/                          # Referensi data diri & template UI
+├── db.sqlite3                        # Database SQLite lokal terpadu (shared local DB)
 ├── my-profile/                       # Project 1: Portofolio (wisnubaldas.net)
 │   ├── manage.py
 │   ├── config/                       # Settings, URLs, WSGI/ASGI
@@ -51,8 +52,7 @@ blog-baldas/
 │   ├── static/
 │   ├── api/index.py                  # Entry point Vercel
 │   ├── vercel.json                   # Build & rewrite Vercel
-│   ├── requirements.txt
-│   └── db.sqlite3
+│   └── requirements.txt
 ├── blog/                             # Project 2: Blog (blog.wisnubaldas.net)
 │   ├── manage.py
 │   ├── config/                       # Settings, URLs, WSGI/ASGI
@@ -60,8 +60,7 @@ blog-baldas/
 │   ├── static/
 │   ├── api/index.py                  # Entry point Vercel
 │   ├── vercel.json                   # Build & rewrite Vercel
-│   ├── requirements.txt
-│   └── db.sqlite3
+│   └── requirements.txt
 ├── AGENTS.md                         # Kontrak agent & aturan arsitektur
 └── README.md                         # Dokumentasi utama repository
 ```
@@ -70,28 +69,52 @@ blog-baldas/
 
 ## 💻 Panduan Jalankan di Lokal (Development)
 
-### 1. Project Portofolio (`my-profile`)
+### 1. Migrasi & Seeding Data Awal (Shared SQLite)
+Sebelum menjalankan aplikasi, terapkan migrasi database dan masukkan data awal (*seeding*):
+```bash
+# Migrasi dan seed data Portofolio (company_profile)
+cd my-profile
+python manage.py migrate
+python manage.py seed_profile
+
+# Migrasi dan seed data Blog (blog)
+cd ../blog
+python manage.py migrate
+python manage.py seed_blog
+```
+
+### 2. Jalankan Server Portofolio (`my-profile`)
 ```bash
 cd my-profile
-python -m venv .venv
-.venv\Scripts\Activate.ps1   # Windows PowerShell
-pip install -r requirements.txt
-python manage.py migrate
 python manage.py runserver 8000
 ```
 Buka peramban di: `http://localhost:8000/`
 
-### 2. Project Blog (`blog`)
+### 3. Jalankan Server Blog (`blog`)
 Buka terminal baru:
 ```bash
 cd blog
-python -m venv .venv
-.venv\Scripts\Activate.ps1   # Windows PowerShell
-pip install -r requirements.txt
-python manage.py migrate
 python manage.py runserver 8001
 ```
 Buka peramban di: `http://localhost:8001/`
+
+---
+
+## 🗄️ Seeding Data ke Supabase PostgreSQL (Production)
+
+Untuk memasok data awal ke Supabase PostgreSQL dari terminal lokal:
+```bash
+# 1. Seed data Portofolio ke Supabase
+cd my-profile
+python manage.py migrate
+python manage.py seed_profile
+
+# 2. Seed data Blog ke Supabase
+cd ../blog
+python manage.py migrate
+python manage.py seed_blog
+```
+*(Pastikan `.env` memiliki `DATABASE_URL` dan `USE_POSTGRES=True` saat mengoperasikan command ini ke Supabase).*
 
 ---
 

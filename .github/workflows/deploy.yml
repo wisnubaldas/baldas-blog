@@ -3,7 +3,7 @@ name: Deployment Serial to Vercel
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   # STEP 1: Build & Deploy Portofolio terlebih dahulu

@@ -1,8 +1,8 @@
 """Home controller for company_profile app."""
 
-from django.shortcuts import render
+from apps.company_profile.models import Experience, Profile, Project
 from django.http import HttpRequest, HttpResponse
-from apps.company_profile.models import Profile, Experience, Project
+from django.shortcuts import render
 
 
 def home(request: HttpRequest) -> HttpResponse:

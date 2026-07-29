@@ -32,6 +32,7 @@ Repositori ini terbagi menjadi dua project Django terpisah di bawah root:
 ```text
 .
 ├── .agents/                        # Referensi internal data diri & template
+├── db.sqlite3                      # Database SQLite lokal terpadu (shared local DB)
 ├── my-profile/                     # Project 1: Portofolio (wisnubaldas.net)
 │   ├── manage.py
 │   ├── config/                     # settings, urls, wsgi, asgi, context_processors
@@ -43,6 +44,7 @@ Repositori ini terbagi menjadi dua project Django terpisah di bawah root:
 │   │       ├── controllers/        # home_controller, profile_controller, dll.
 │   │       ├── models/             # profile, experience, project, contact
 │   │       ├── urls/               # home_urls, portfolio_urls, contact_urls
+│   │       ├── management/commands/seed_profile.py
 │   │       ├── admin.py
 │   │       ├── apps.py
 │   │       └── services.py
@@ -50,8 +52,7 @@ Repositori ini terbagi menjadi dua project Django terpisah di bawah root:
 │   ├── media/
 │   ├── api/index.py                # entry point Vercel
 │   ├── vercel.json                 # konfigurasi Vercel my-profile
-│   ├── requirements.txt
-│   └── db.sqlite3
+│   └── requirements.txt
 ├── blog/                           # Project 2: Blog (blog.wisnubaldas.net)
 │   ├── manage.py
 │   ├── config/                     # settings, urls, wsgi, asgi, context_processors
@@ -63,6 +64,7 @@ Repositori ini terbagi menjadi dua project Django terpisah di bawah root:
 │   │       ├── controllers/        # post_controller, category_controller, search_controller, page_controller
 │   │       ├── models/             # post, category, tag, contact
 │   │       ├── urls/               # post_urls, category_urls, search_urls, page_urls
+│   │       ├── management/commands/seed_blog.py
 │   │       ├── admin.py
 │   │       ├── apps.py
 │   │       └── services.py
@@ -70,8 +72,7 @@ Repositori ini terbagi menjadi dua project Django terpisah di bawah root:
 │   ├── media/
 │   ├── api/index.py                # entry point Vercel
 │   ├── vercel.json                 # konfigurasi Vercel blog
-│   ├── requirements.txt
-│   └── db.sqlite3
+│   └── requirements.txt
 ├── README.md
 └── AGENTS.md
 ```
@@ -147,8 +148,8 @@ SQLite hanya dipakai untuk development lokal. Untuk production Vercel, gunakan P
 ## Alur kerja agent
 
 1. Sebelum membuat/mengubah halaman, periksa referensi `.agents/`.
-2. Untuk pengujian local `my-profile`: jalankan perintah di `my-profile/` (`python manage.py check`, `python manage.py migrate`, `python manage.py runserver 8000`).
-3. Untuk pengujian local `blog`: jalankan perintah di `blog/` (`python manage.py check`, `python manage.py migrate`, `python manage.py runserver 8001`).
+2. Untuk pengujian local `my-profile`: jalankan perintah di `my-profile/` (`python manage.py check`, `python manage.py migrate`, `python manage.py seed_profile`, `python manage.py runserver 8000`).
+3. Untuk pengujian local `blog`: jalankan perintah di `blog/` (`python manage.py check`, `python manage.py migrate`, `python manage.py seed_blog`, `python manage.py runserver 8001`).
 4. Verifikasi `collectstatic` pada masing-masing project sebelum menyatakan fitur selesai.
 
 ## Definition of done
