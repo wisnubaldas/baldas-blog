@@ -82,13 +82,25 @@ TEMPLATES = [
 WSGI_APPLICATION = "config.wsgi.application"
 
 # ─── Database ──────────────────────────────────────────────────────────────────
-# Flexible: SQLite for local dev, PostgreSQL (Supabase) for production.
-# Set DATABASE_URL env variable to switch to PostgreSQL.
-# Example Supabase: postgresql://postgres:PASSWORD@db.PROJECT.supabase.co:5432/postgres
+# Flexible: SQLite for local dev & build steps, PostgreSQL (Supabase) for production runtime.
+import sys
 
 _database_url = config("DATABASE_URL", default="")
+_is_collectstatic = "collectstatic" in sys.argv
 
-if _database_url:
+_has_psycopg = False
+if _database_url and not _is_collectstatic:
+    try:
+        import psycopg2  # noqa: F401
+        _has_psycopg = True
+    except Exception:
+        try:
+            import psycopg  # noqa: F401
+            _has_psycopg = True
+        except Exception:
+            _has_psycopg = False
+
+if _database_url and not _is_collectstatic and _has_psycopg:
     DATABASES = {
         "default": dj_database_url.parse(
             _database_url,
