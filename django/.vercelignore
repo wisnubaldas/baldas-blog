@@ -1,5 +1,4 @@
-# Exclude heavy non-runtime folders from Vercel Serverless Function Bundle
-# Keep staticfiles/ so WhiteNoise can serve all CSS, JS, fonts, and images
+# Exclude heavy non-runtime folders from Vercel deployment
 .agents/
 .git/
 .venv/

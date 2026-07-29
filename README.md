@@ -141,13 +141,12 @@ File `django/vercel.json` mengarahkan Vercel untuk menjalankan `collectstatic` k
 
 ```json
 {
-  "builds": [
-    {
-      "src": "api/index.py",
-      "use": "@vercel/python"
-    }
-  ],
+  "buildCommand": "python manage.py collectstatic --noinput",
   "routes": [
+    {
+      "src": "/static/(.*)",
+      "dest": "/staticfiles/$1"
+    },
     {
       "src": "/(.*)",
       "dest": "api/index.py"
