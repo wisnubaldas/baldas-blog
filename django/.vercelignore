@@ -1,0 +1,15 @@
+# Exclude staticfiles and heavy folders from Vercel Python Serverless Function Bundle
+staticfiles/
+media/
+db.sqlite3
+*.sqlite3
+*.log
+.venv/
+venv/
+env/
+__pycache__/
+*.pyc
+.git/
+.vscode/
+.idea/
+.agents/

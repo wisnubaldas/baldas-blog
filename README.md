@@ -147,6 +147,9 @@ File `django/vercel.json` mengarahkan Vercel untuk menjalankan `collectstatic` k
 }
 ```
 
+> [!IMPORTANT]
+> **Optimasi Ukuran Function Vercel (`.vercelignore`)**: File `.vercelignore` disiapkan untuk mengabaikan folder `staticfiles/`, `media/`, `.agents/`, dan `.venv/` dari zip paket Serverless Function Vercel. Hal ini memangkas ukuran bundle dari **249 MB menjadi < 30 MB** (jauh di bawah batas Vercel 225 MB).
+
 ---
 
 ## 📜 Lisensi & Penulis
