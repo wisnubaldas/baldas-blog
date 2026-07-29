@@ -1,6 +1,6 @@
 """
 Django management command to seed Profile, Skill, SocialLink, Experience, ProjectTag, Project, and ProjectImage data.
-Generated automatically from current database state.
+Generated automatically with static file upload paths.
 Usage: python manage.py seed_profile
 """
 
@@ -24,45 +24,57 @@ class Command(BaseCommand):
         self.stdout.write(self.style.NOTICE("Memulai seeding data company_profile..."))
 
         # 1. Profile
-        profile, created = Profile.objects.update_or_create(
-            email='wisnu@wisnubaldas.net',
-            defaults={
-                "full_name": 'Wisnu Hidayat',
-                "tagline": 'Programer Gadungan',
-                "bio": 'Software Engineer berpengalaman dalam membangun aplikasi enterprise, sistem ERP, dan arsitektur web modern menggunakan Python, Django, HTMX, dan PostgreSQL.',
-                "bio_detail": 'Lebih dari 5 tahun berpengalaman dalam merancang dan mengimplementasikan aplikasi terintegrasi. Berfokus pada arsitektur MVT murni, efisiensi database, dan performa web yang tinggi.',
-                "phone": '+62 812-3456-7890',
-                "location": 'Tangerang / Jakarta, Indonesia',
-                "photo": 'profile/452479322_10223147159299982_3345301148279511699_n.jpg',
-                "resume_file": 'resume/Wisnu_Hidayat_CV_2026_Modern.pdf',
-                "is_active": True,
-            },
-        )
+        profile = Profile.objects.filter(is_active=True).first()
+        if not profile:
+            profile = Profile(email="wisnubaldas@gmail.com")
+        profile.full_name = 'Wisnu Hidayat'
+        profile.tagline = 'Senior Full Stack Engineer & Solution Architect'
+        profile.bio = 'Software Engineer berpengalaman dalam membangun aplikasi enterprise, sistem ERP, dan arsitektur web modern menggunakan Python, Django, HTMX, dan PostgreSQL.'
+        profile.bio_detail = 'Lebih dari 5 tahun berpengalaman dalam merancang dan mengimplementasikan aplikasi terintegrasi. Berfokus pada arsitektur MVT murni, efisiensi database, dan performa web yang tinggi.'
+        profile.phone = '081316185608'
+        profile.location = 'Jakarta, Indonesia'
+        profile.photo = "company_profile/uploads/profile/452479322_10223147159299982_3345301148279511699_n.jpg"
+        profile.resume_file = "company_profile/uploads/resume/Wisnu_Hidayat_CV_2026_Modern.pdf"
+        profile.is_active = True
+        profile.save()
         self.stdout.write(self.style.SUCCESS(f"Profil disiapkan: {profile.full_name}"))
+
 
         # 2. Skills
         skills_data = [
             {"name": 'FastApi', "level": 80, "category": 'technical', "icon": 'fab fa-python', "order": 0},
+            {"name": 'FastApi', "level": 80, "category": 'technical', "icon": 'fab fa-python', "order": 0},
+            {"name": 'React JS', "level": 80, "category": 'technical', "icon": 'fab fa-react', "order": 0},
             {"name": 'React JS', "level": 80, "category": 'technical', "icon": 'fab fa-react', "order": 0},
             {"name": 'Python', "level": 92, "category": 'technical', "icon": 'fab fa-python', "order": 1},
+            {"name": 'Python', "level": 92, "category": 'technical', "icon": 'fab fa-python', "order": 1},
             {"name": 'Python (FastAPI / Django)', "level": 95, "category": 'technical', "icon": 'fab fa-python', "order": 1},
+            {"name": 'Django Framework', "level": 95, "category": 'technical', "icon": 'fas fa-cubes', "order": 2},
             {"name": 'Django Framework', "level": 95, "category": 'technical', "icon": 'fas fa-cubes', "order": 2},
             {"name": 'PHP (Laravel / Lumen)', "level": 95, "category": 'technical', "icon": 'fab fa-php', "order": 2},
             {"name": 'Database Design (PostgreSQL/MySQL/Redis)', "level": 92, "category": 'technical', "icon": 'fas fa-database', "order": 3},
             {"name": 'HTMX', "level": 88, "category": 'technical', "icon": 'fas fa-bolt', "order": 3},
+            {"name": 'HTMX', "level": 88, "category": 'technical', "icon": 'fas fa-bolt', "order": 3},
+            {"name": 'PostgreSQL', "level": 85, "category": 'technical', "icon": 'fas fa-database', "order": 4},
             {"name": 'PostgreSQL', "level": 85, "category": 'technical', "icon": 'fas fa-database', "order": 4},
             {"name": 'REST API & System Integration', "level": 94, "category": 'technical', "icon": 'fas fa-network-wired', "order": 4},
             {"name": 'Frontend (Astro / React / HTMX)', "level": 88, "category": 'technical', "icon": 'fab fa-react', "order": 5},
             {"name": 'SQLite', "level": 90, "category": 'technical', "icon": 'fas fa-server', "order": 5},
+            {"name": 'SQLite', "level": 90, "category": 'technical', "icon": 'fas fa-server', "order": 5},
+            {"name": 'JavaScript (Vanilla)', "level": 85, "category": 'technical', "icon": 'fab fa-js', "order": 6},
             {"name": 'JavaScript (Vanilla)', "level": 85, "category": 'technical', "icon": 'fab fa-js', "order": 6},
             {"name": 'WMS & Logistics Systems', "level": 95, "category": 'technical', "icon": 'fas fa-boxes', "order": 6},
             {"name": 'Docker & Kubernetes', "level": 85, "category": 'tool', "icon": 'fab fa-docker', "order": 7},
             {"name": 'HTML5 / CSS3 / Sass', "level": 90, "category": 'technical', "icon": 'fab fa-html5', "order": 7},
+            {"name": 'HTML5 / CSS3 / Sass', "level": 90, "category": 'technical', "icon": 'fab fa-html5', "order": 7},
+            {"name": 'Docker & Containers', "level": 80, "category": 'tool', "icon": 'fab fa-docker', "order": 8},
             {"name": 'Docker & Containers', "level": 80, "category": 'tool', "icon": 'fab fa-docker', "order": 8},
             {"name": 'Huawei Cloud & DevOps (GitLab CI/CD)', "level": 85, "category": 'tool', "icon": 'fas fa-cloud', "order": 8},
             {"name": 'Git & GitHub Workflow', "level": 92, "category": 'tool', "icon": 'fab fa-github', "order": 9},
+            {"name": 'Git & GitHub Workflow', "level": 92, "category": 'tool', "icon": 'fab fa-github', "order": 9},
             {"name": 'Linux Infrastructure & Servers', "level": 90, "category": 'tool', "icon": 'fab fa-linux', "order": 9},
             {"name": 'Hardware Device Integration', "level": 88, "category": 'tool', "icon": 'fas fa-microchip', "order": 10},
+            {"name": 'Vercel & Cloud Deploy', "level": 85, "category": 'tool', "icon": 'fas fa-cloud-upload-alt', "order": 10},
             {"name": 'Vercel & Cloud Deploy', "level": 85, "category": 'tool', "icon": 'fas fa-cloud-upload-alt', "order": 10},
         ]
         for s in skills_data:
@@ -190,14 +202,14 @@ class Command(BaseCommand):
 
         # 6. Projects
         proj, _ = Project.objects.update_or_create(
-            profile=profile,
             slug='tps-online',
             defaults={
+                "profile": profile,
                 "title": 'TPS Online',
                 "client": 'MAU',
                 "short_description": 'Tps Online Mitra Adira Utama',
                 "description": '',
-                "cover_image": 'projects/covers/tps2.png',
+                "cover_image": 'company_profile/uploads/covers/tps2.png',
                 "role": 'Fullstack Developer',
                 "status": 'completed',
                 "year": 2021,
@@ -210,9 +222,9 @@ class Command(BaseCommand):
         proj.tags.set([tag_objs[ts] for ts in ['codeigniter'] if ts in tag_objs])
 
         proj, _ = Project.objects.update_or_create(
-            profile=profile,
             slug='warehouse-management-system',
             defaults={
+                "profile": profile,
                 "title": 'Warehouse Management System (WMS)',
                 "client": 'PT Anugerah Tangkas Transportindo',
                 "short_description": 'Sistem manajemen pergudangan enterprise untuk otomatisasi stok, inbound, outbound, dan tracking barang kargo.',
@@ -230,9 +242,9 @@ class Command(BaseCommand):
         proj.tags.set([tag_objs[ts] for ts in ['fastapi', 'laravel', 'postgresql', 'logistics'] if ts in tag_objs])
 
         proj, _ = Project.objects.update_or_create(
-            profile=profile,
             slug='iderp-web-version',
             defaults={
+                "profile": profile,
                 "title": 'IDERP Web Version',
                 "client": 'CJFI',
                 "short_description": 'Aplikasi ERP yang di kembangkan dari PT CJFI',
@@ -250,9 +262,9 @@ class Command(BaseCommand):
         proj.tags.set([tag_objs[ts] for ts in ['codeigniter', 'laravel'] if ts in tag_objs])
 
         proj, _ = Project.objects.update_or_create(
-            profile=profile,
             slug='cargo-logistics-system',
             defaults={
+                "profile": profile,
                 "title": 'Cargo & Logistics Management System',
                 "client": 'PT Anugerah Tangkas Transportindo',
                 "short_description": 'Platform manajemen pengiriman kargo, penjadwalan armada, dan integrasi API logistik.',
@@ -270,9 +282,9 @@ class Command(BaseCommand):
         proj.tags.set([tag_objs[ts] for ts in ['fastapi', 'laravel', 'python', 'logistics'] if ts in tag_objs])
 
         proj, _ = Project.objects.update_or_create(
-            profile=profile,
             slug='smart-lock-kerong-integration',
             defaults={
+                "profile": profile,
                 "title": 'Smart Lock System Integration (Kerong)',
                 "client": 'PT Himalaya Indo Karya',
                 "short_description": 'Aplikasi kontrol akses pintar berbasis IoT terintegrasi dengan perangkat Kerong Smart Lock.',
@@ -290,9 +302,9 @@ class Command(BaseCommand):
         proj.tags.set([tag_objs[ts] for ts in ['hardware', 'laravel', 'postgresql'] if ts in tag_objs])
 
         proj, _ = Project.objects.update_or_create(
-            profile=profile,
             slug='passport-printing-system',
             defaults={
+                "profile": profile,
                 "title": 'Passport Printing System',
                 "client": 'Imigrasi & Kedutaan (PT Himalaya Indo Karya)',
                 "short_description": 'Sistem pencetakan dokumen paspor dan validasi data identitas resmi imigrasi.',
@@ -310,9 +322,9 @@ class Command(BaseCommand):
         proj.tags.set([tag_objs[ts] for ts in ['hardware', 'laravel', 'postgresql'] if ts in tag_objs])
 
         proj, _ = Project.objects.update_or_create(
-            profile=profile,
             slug='wisnu-baldas-platform',
             defaults={
+                "profile": profile,
                 "title": 'Wisnu Baldas Platform & ERP Architecture',
                 "client": 'Personal / Enterprise Project',
                 "short_description": 'Portofolio interaktif dan platform blog modern berbasis Django MVT & HTMX.',
@@ -332,19 +344,21 @@ class Command(BaseCommand):
         self.stdout.write(self.style.SUCCESS("Projects berhasil di-seed."))
 
         # 7. Project Images
+        ProjectImage.objects.all().delete()
         images_data = [
-            {"project_slug": 'iderp-web-version', "image": 'projects/gallery/iderp1.png', "caption": 'Landing Page', "order": 0},
-            {"project_slug": 'iderp-web-version', "image": 'projects/gallery/iderp2.png', "caption": 'Login Page', "order": 0},
-            {"project_slug": 'iderp-web-version', "image": 'projects/gallery/iderp3.png', "caption": 'Dashboard', "order": 0},
-            {"project_slug": 'iderp-web-version', "image": 'projects/gallery/iderp4.png', "caption": 'HRD Calender', "order": 0},
-            {"project_slug": 'iderp-web-version', "image": 'projects/gallery/iderp5.png', "caption": 'Ranking Penjualan Depo', "order": 0},
-            {"project_slug": 'iderp-web-version', "image": 'projects/gallery/iderp7.png', "caption": 'Kalender Promo Depo', "order": 0},
-            {"project_slug": 'tps-online', "image": 'projects/gallery/tps1.png', "caption": 'Login', "order": 0},
-            {"project_slug": 'tps-online', "image": 'projects/gallery/tps2.png', "caption": 'Dashboard', "order": 0},
-            {"project_slug": 'tps-online', "image": 'projects/gallery/tps3.png', "caption": 'Master Barang', "order": 0},
-            {"project_slug": 'tps-online', "image": 'projects/gallery/tps41.png', "caption": 'Entry Master', "order": 0},
-            {"project_slug": 'tps-online', "image": 'projects/gallery/tps4.png', "caption": 'Tarik response BC', "order": 0},
-            {"project_slug": 'tps-online', "image": 'projects/gallery/tps5.png', "caption": 'SPBB', "order": 0},
+
+            {"project_slug": 'iderp-web-version', "image": 'company_profile/uploads/gallery/iderp1.png', "caption": 'Landing Page', "order": 0},
+            {"project_slug": 'iderp-web-version', "image": 'company_profile/uploads/gallery/iderp2.png', "caption": 'Login Page', "order": 0},
+            {"project_slug": 'iderp-web-version', "image": 'company_profile/uploads/gallery/iderp3.png', "caption": 'Dashboard', "order": 0},
+            {"project_slug": 'iderp-web-version', "image": 'company_profile/uploads/gallery/iderp4.png', "caption": 'HRD Calender', "order": 0},
+            {"project_slug": 'iderp-web-version', "image": 'company_profile/uploads/gallery/iderp5.png', "caption": 'Ranking Penjualan Depo', "order": 0},
+            {"project_slug": 'iderp-web-version', "image": 'company_profile/uploads/gallery/iderp7.png', "caption": 'Kalender Promo Depo', "order": 0},
+            {"project_slug": 'tps-online', "image": 'company_profile/uploads/gallery/tps1.png', "caption": 'Login', "order": 0},
+            {"project_slug": 'tps-online', "image": 'company_profile/uploads/gallery/tps2.png', "caption": 'Dashboard', "order": 0},
+            {"project_slug": 'tps-online', "image": 'company_profile/uploads/gallery/tps3.png', "caption": 'Master Barang', "order": 0},
+            {"project_slug": 'tps-online', "image": 'company_profile/uploads/gallery/tps41.png', "caption": 'Entry Master', "order": 0},
+            {"project_slug": 'tps-online', "image": 'company_profile/uploads/gallery/tps4.png', "caption": 'Tarik response BC', "order": 0},
+            {"project_slug": 'tps-online', "image": 'company_profile/uploads/gallery/tps5.png', "caption": 'SPBB', "order": 0},
         ]
         for img_data in images_data:
             try:

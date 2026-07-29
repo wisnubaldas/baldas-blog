@@ -41,8 +41,9 @@ class Project(models.Model):
     short_description = models.CharField("Deskripsi Singkat", max_length=300)
     description = models.TextField("Deskripsi Lengkap", blank=True)
     cover_image = models.ImageField(
-        "Gambar Cover", upload_to="projects/covers/", blank=True
+        "Gambar Cover", upload_to="company_profile/uploads/covers/", blank=True
     )
+
     tags = models.ManyToManyField(ProjectTag, blank=True, verbose_name="Tags")
     role = models.CharField("Peran dalam Proyek", max_length=200, blank=True)
     status = models.CharField(
@@ -70,7 +71,8 @@ class ProjectImage(models.Model):
     project = models.ForeignKey(
         Project, on_delete=models.CASCADE, related_name="images", verbose_name="Proyek"
     )
-    image = models.ImageField("Gambar", upload_to="projects/gallery/")
+    image = models.ImageField("Gambar", upload_to="company_profile/uploads/gallery/")
+
     caption = models.CharField("Keterangan", max_length=200, blank=True)
     order = models.PositiveSmallIntegerField("Urutan", default=0)
 

@@ -13,8 +13,9 @@ class Profile(models.Model):
     email = models.EmailField("Email")
     phone = models.CharField("Telepon", max_length=30, blank=True)
     location = models.CharField("Lokasi", max_length=100, blank=True)
-    photo = models.ImageField("Foto Profil", upload_to="profile/", blank=True)
-    resume_file = models.FileField("File Resume", upload_to="resume/", blank=True)
+    photo = models.ImageField("Foto Profil", upload_to="company_profile/uploads/profile/", blank=True)
+    resume_file = models.FileField("File Resume", upload_to="company_profile/uploads/resume/", blank=True)
+
     is_active = models.BooleanField("Aktif", default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
