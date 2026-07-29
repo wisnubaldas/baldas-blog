@@ -12,6 +12,7 @@ urlpatterns = [
         url="/static/company_profile/favicon.ico", permanent=True
     )),
     path("admin/", admin.site.urls),
+    path("ckeditor5/", include("django_ckeditor_5.urls")),
     # Company Profile / Portofolio — root
     path("", include("apps.company_profile.urls", namespace="company_profile")),
 ]

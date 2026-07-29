@@ -15,13 +15,13 @@ SECRET_KEY = config("SECRET_KEY", default="django-insecure-blog-key-change-in-pr
 DEBUG = config("DEBUG", default=True, cast=bool)
 ALLOWED_HOSTS = config(
     "ALLOWED_HOSTS",
-    default="localhost,127.0.0.1,blog.wisnubaldas.net,.vercel.app",
+    default="localhost,127.0.0.1,blog.wisnubaldas.net,.wisnubaldas.net,.vercel.app",
     cast=Csv(),
 )
 
 CSRF_TRUSTED_ORIGINS = config(
     "CSRF_TRUSTED_ORIGINS",
-    default="http://localhost:8001,http://127.0.0.1:8001,https://blog.wisnubaldas.net,https://*.vercel.app",
+    default="http://localhost:8001,http://127.0.0.1:8001,https://blog.wisnubaldas.net,https://*.wisnubaldas.net,https://*.vercel.app",
     cast=Csv(),
 )
 

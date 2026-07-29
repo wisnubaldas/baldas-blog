@@ -18,13 +18,13 @@ SECRET_KEY = config(
 DEBUG = config("DEBUG", default=True, cast=bool)
 ALLOWED_HOSTS = config(
     "ALLOWED_HOSTS",
-    default="localhost,127.0.0.1,wisnubaldas.net,www.wisnubaldas.net,.vercel.app",
+    default="localhost,127.0.0.1,wisnubaldas.net,www.wisnubaldas.net,.wisnubaldas.net,.vercel.app",
     cast=Csv(),
 )
 
 CSRF_TRUSTED_ORIGINS = config(
     "CSRF_TRUSTED_ORIGINS",
-    default="http://localhost:8000,http://127.0.0.1:8000,https://wisnubaldas.net,https://www.wisnubaldas.net,https://*.vercel.app",
+    default="http://localhost:8000,http://127.0.0.1:8000,https://wisnubaldas.net,https://www.wisnubaldas.net,https://*.wisnubaldas.net,https://*.vercel.app",
     cast=Csv(),
 )
 
