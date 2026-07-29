@@ -1,6 +1,7 @@
 """Home controller for company_profile app."""
 
 from apps.company_profile.models import Experience, Profile, Project
+from apps.company_profile.utils.captcha import generate_captcha
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 
@@ -21,10 +22,14 @@ def home(request: HttpRequest) -> HttpResponse:
         else []
     )
 
+    captcha_question, captcha_token = generate_captcha()
+
     context = {
         "profile": profile,
         "experiences": experiences,
         "projects": projects,
+        "captcha_question": captcha_question,
+        "captcha_token": captcha_token,
     }
     return render(request, "company_profile/home.html", context)
 

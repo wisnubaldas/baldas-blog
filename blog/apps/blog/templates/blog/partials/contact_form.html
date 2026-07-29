@@ -1,0 +1,82 @@
+{% load static %}
+
+<form id="blog-contact-form"
+      hx-post="{% url 'blog:contact' %}"
+      hx-target="#blog-contact-form-wrapper"
+      hx-swap="innerHTML">
+  {% csrf_token %}
+
+  <!-- Honeypot anti-spam protection (hidden from human users) -->
+  <div style="display:none !important;" aria-hidden="true">
+    <input type="text" name="website_url_check" tabindex="-1" autocomplete="off" />
+  </div>
+
+  {% if errors %}
+  <div class="alert alert-danger mb-3 py-2 px-3 fs-6">
+    <ul class="mb-0 ps-3">
+      {% for field, msg in errors.items %}
+      <li>{{ msg }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
+
+  <div class="mb-3">
+    <label class="form-label font-weight-bold">Nama <span class="text-primary">*</span></label>
+    <input type="text"
+           name="name"
+           class="form-control {% if errors.name %}is-invalid{% endif %}"
+           value="{{ form_data.name|default:'' }}"
+           placeholder="Nama Anda"
+           required />
+    {% if errors.name %}<div class="invalid-feedback">{{ errors.name }}</div>{% endif %}
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label font-weight-bold">Email <span class="text-primary">*</span></label>
+    <input type="email"
+           name="email"
+           class="form-control {% if errors.email %}is-invalid{% endif %}"
+           value="{{ form_data.email|default:'' }}"
+           placeholder="email@anda.com"
+           required />
+    {% if errors.email %}<div class="invalid-feedback">{{ errors.email }}</div>{% endif %}
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label font-weight-bold">Subjek</label>
+    <input type="text"
+           name="subject"
+           class="form-control"
+           value="{{ form_data.subject|default:'' }}"
+           placeholder="Subjek pesan" />
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label font-weight-bold">Pesan <span class="text-primary">*</span></label>
+    <textarea name="message"
+              class="form-control {% if errors.message %}is-invalid{% endif %}"
+              rows="5"
+              placeholder="Tuliskan pesan Anda..."
+              required>{{ form_data.message|default:'' }}</textarea>
+    {% if errors.message %}<div class="invalid-feedback">{{ errors.message }}</div>{% endif %}
+  </div>
+
+  <!-- Human Verification (CAPTCHA) -->
+  <div class="mb-3 p-3 bg-light rounded border">
+    <label class="form-label font-weight-bold text-dark mb-1">
+      <i class="fa fa-shield-alt text-primary me-1"></i> {{ captcha_question }} <span class="text-primary">*</span>
+    </label>
+    <input type="hidden" name="captcha_token" value="{{ captcha_token }}" />
+    <input type="number"
+           name="captcha_answer"
+           class="form-control mt-2 {% if errors.captcha %}is-invalid{% endif %}"
+           placeholder="Masukkan jawaban angka"
+           required />
+    {% if errors.captcha %}<div class="invalid-feedback d-block">{{ errors.captcha }}</div>{% endif %}
+  </div>
+
+  <button type="submit" class="btn btn-primary w-100 py-2 fw-bold">
+    <i class="fa fa-paper-plane me-1"></i> Kirim Pesan
+  </button>
+</form>
